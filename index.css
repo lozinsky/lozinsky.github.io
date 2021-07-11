@@ -1,0 +1,160 @@
+:root {
+  --background-color: #f0f0f0;
+  --color: #2b2b2b;
+}
+
+.follow {
+  --follow-color-saturation: 80%;
+  --follow-color-lightness: 40%;
+  --follow-decoration-saturation: 64%;
+  --follow-decoration-lightness: 75%;
+  --follow-focus-decoration-saturation: 70%;
+  --follow-focus-decoration-lightness: 58%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #2b2b2b;
+    --color: #f0f0f0;
+  }
+
+  .follow {
+    --follow-color-saturation: 90%;
+    --follow-color-lightness: 70%;
+    --follow-decoration-saturation: 30%;
+    --follow-decoration-lightness: 30%;
+    --follow-focus-decoration-saturation: 70%;
+    --follow-focus-decoration-lightness: 70%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prefers-reduced-motion-no-preference-only {
+    display: none;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 479px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  html {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 980px) and (max-width: 1023px) {
+  html {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  html {
+    font-size: 26px;
+  }
+}
+
+@media (min-width: 1200px) {
+  html {
+    font-size: 28px;
+  }
+}
+
+html {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--color);
+  margin: 1rem;
+}
+
+main {
+  margin: 15vh auto;
+  max-width: 40rem;
+}
+
+p {
+  line-height: 1.7rem;
+}
+
+a {
+  --follow-hue: 222;
+
+  text-decoration: none;
+}
+
+.follow {
+  --follow-offset: 0.25em;
+  --follow-height: 0.1em;
+
+  background-image: linear-gradient(
+    90deg,
+    hsl(var(--follow-hue), var(--follow-decoration-saturation), var(--follow-decoration-lightness)) 100%,
+    transparent 0%
+  );
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: 100% var(--follow-height);
+  border-radius: 0.3em;
+  color: hsl(var(--follow-hue), var(--follow-color-saturation), var(--follow-color-lightness));
+  margin: 0 calc(var(--follow-offset) * -1);
+  outline: none;
+  padding: 0 var(--follow-offset);
+  transition-duration: 0.2s;
+  transition-property: background-size, color;
+}
+
+.follow:hover {
+  --follow-height: 100%;
+}
+
+.js .follow.focus-visible,
+.no-js .follow:focus {
+  --follow-height: 100%;
+  --follow-decoration-saturation: var(--follow-focus-decoration-saturation);
+  --follow-decoration-lightness: var(--follow-focus-decoration-lightness);
+
+  color: var(--background-color);
+}
+
+.js collapse-entry[opened]:not([once]) > *:not(collapse-content),
+.no-js collapse-entry:not([once]) > *:not(collapse-content) {
+  display: none;
+}
+
+.js collapse-handle:not([disabled]),
+.js effects-player[stopped] {
+  --follow-hue: 350;
+
+  color: inherit;
+  cursor: pointer;
+}
+
+.js .no-js-only {
+  display: none;
+}
+
+.no-js collapse-content,
+.no-js span[hidden] {
+  display: inline;
+}
+
+.no-js p[hidden] {
+  display: block;
+}
+
+.no-js .js-only {
+  display: none;
+}

@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "type": "module",
+  "homepage": "https://lozinsky.dev",
+  "license": "MIT",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "test": "wtr **/*.test.js --node-resolve"
+  },
+  "dependencies": {
+    "focus-visible": "^5.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/eslint-parser": "^7.14.7",
+    "@esm-bundle/chai": "^4.3.4",
+    "@web/test-runner": "^0.13.13",
+    "eslint": "^7.30.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsdoc": "^35.4.3",
+    "eslint-plugin-prefer-let": "^1.1.0",
+    "eslint-plugin-security": "^1.4.0",
+    "sinon": "^11.1.1",
+    "vite": "^2.4.1"
+  }
+}

@@ -1,65 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#1e1e1e" />
-    <title>Lozinsky</title>
-    <link rel="stylesheet" href="/styles.css" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-icon-180.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png" />
-    <link rel="icon" type="image/x-icon" href="/assets/favicon/favicon.ico" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="prefetch" href="/assets/emoji/balloon.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/bicyclist.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/camera.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/crab.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/dolphin.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/face-with-tears-of-joy.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/frog-face.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/growing-heart.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/monkey-face.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/nerd-face.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/personal-computer.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/rainbow.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/seedling.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/slice-of-pizza.png" as="image" />
-    <link rel="prefetch" href="/assets/emoji/water-wave.png" as="image" />
+    <meta name="description" content="Frontend developer interested in design systems, user and dev experiences." />
+
+    <title>Pavel Lozinsky</title>
+
+    <script>
+      document.documentElement.classList.replace('no-js', 'js');
+    </script>
+
+    <link rel="stylesheet" href="/index.css" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <script type="module" src="/node_modules/focus-visible/src/focus-visible.js"></script>
+    <script type="module" src="/elements/collapse-entry-element.js"></script>
+    <script type="module" src="/elements/collapse-handle-element.js"></script>
+    <script type="module" src="/elements/collapse-content-element.js"></script>
+    <script type="module" src="/elements/effects-player-element.js"></script>
+    <script type="module" src="/elements/time-ago-element.js"></script>
   </head>
   <body>
-    <div class="content">
-      <div class="stuff">
-        <h1>Lozinsky</h1>
-        <ul>
-          <li>
-            <a href="https://github.com/lozinsky" target="_blank" title="GitHub">
-              <img src="/assets/emoji/octopus.png" alt="Octopus" />
-            </a>
-          </li>
-          <li>
-            <a href="mailto:pavel@lozinsky.dev?subject=Hi" target="_blank" title="Email">
-              <img src="/assets/emoji/postbox.png" alt="Postbox" />
-            </a>
-          </li>
-          <li>
-            <a href="https://linkedin.com/in/plozinsky" target="_blank" title="LinkedIn">
-              <img src="/assets/emoji/briefcase.png" alt="Briefcase" />
-            </a>
-          </li>
-          <li>
-            <a href="https://twitter.com/PavelLozinsky" target="_blank" title="Twitter">
-              <img src="/assets/emoji/bird.png" alt="Bird" />
-            </a>
-          </li>
-          <li>
-            <a href="https://t.me/lozinsky" target="_blank" title="Telegram">
-              <img src="/assets/emoji/airplane.png" alt="Airplane" />
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <script async src="/main.js"></script>
+    <main>
+      <p>
+        Hi, my name is
+        <collapse-entry>
+          <span><collapse-handle class="follow">Pavel</collapse-handle>.</span>
+          <collapse-content hidden>
+            <collapse-entry once>
+              <span><collapse-handle class="follow">Pavel Lozinsky</collapse-handle>.</span>
+              <collapse-content hidden>
+                <collapse-entry once>
+                  <collapse-handle class="follow">I'm</collapse-handle>
+                  <collapse-content forwards="contacts" hidden></collapse-content>
+                </collapse-entry>
+                currently living in
+                <collapse-entry>
+                  <span><collapse-handle class="follow">Saint Petersburg</collapse-handle>.</span>
+                  <collapse-content hidden>Saint Petersburg, Russia.</collapse-content>
+                </collapse-entry>
+              </collapse-content>
+            </collapse-entry>
+          </collapse-content>
+        </collapse-entry>
+      </p>
+      <p id="contacts" hidden>
+        You can
+        <collapse-entry>
+          <span>email <collapse-handle class="follow">me</collapse-handle></span>
+          <collapse-content hidden>
+            find me on
+            <a href="https://github.com/lozinsky" target="_blank" rel="noopener" class="follow">GitHub</a>,
+            <a href="https://twitter.com/PavelLozinsky" target="_blank" rel="noopener" class="follow">Twitter</a>,
+            <a href="https://linkedin.com/in/plozinsky" target="_blank" rel="noopener" class="follow">LinkedIn</a>,
+            <a href="https://t.me/lozinsky" target="_blank" rel="noopener" class="follow">Telegram</a>, or email
+          </collapse-content>
+        </collapse-entry>
+        at <a href="mailto:pavel@lozinsky.dev" class="follow">pavel@lozinsky.dev</a>.
+      </p>
+      <p>
+        I
+        <collapse-entry once>
+          <collapse-handle class="follow">am</collapse-handle>
+          <collapse-content forwards="job" hidden></collapse-content>
+        </collapse-entry>
+        a
+        <collapse-entry>
+          <span><collapse-handle class="follow">Developer</collapse-handle>.</span>
+          <collapse-content hidden>
+            <collapse-entry once>
+              <span><collapse-handle class="follow">Frontend developer</collapse-handle>.</span>
+              <collapse-content hidden>
+                <collapse-entry once>
+                  <collapse-handle class="follow">Interested</collapse-handle>
+                  <collapse-content forwards="things" hidden></collapse-content>
+                </collapse-entry>
+                in design systems, user
+                <collapse-entry once>
+                  <collapse-handle class="follow">and</collapse-handle>
+                  <collapse-content forwards="interests" hidden></collapse-content>
+                </collapse-entry>
+                dev experiences.
+                <span id="things" hidden>
+                  Sometimes I do
+                  <span class="js-only prefers-reduced-motion-no-preference-only">
+                    <effects-player stopped class="follow">random</effects-player>
+                    and
+                  </span>
+                  infrastructure things.
+                </span>
+                <span id="interests" hidden>
+                  I
+                  <collapse-entry once>
+                    <collapse-handle class="follow">love</collapse-handle>
+                    <collapse-content hidden>
+                      <collapse-entry>
+                        <span><collapse-handle class="follow">Java</collapse-handle>Script</span>
+                        <collapse-content hidden>TypeScript</collapse-content>
+                      </collapse-entry>
+                      but in my spare time I flirt with
+                    </collapse-content>
+                  </collapse-entry>
+                  Go.
+                </span>
+              </collapse-content>
+            </collapse-entry>
+          </collapse-content>
+        </collapse-entry>
+      </p>
+      <p id="job" hidden>
+        I've been
+        <collapse-entry once>
+          <collapse-handle class="follow">working</collapse-handle>
+          <collapse-content forwards="work" hidden></collapse-content>
+        </collapse-entry>
+        at
+        <a href="https://muranosoft.com" target="_blank" rel="noopener" class="follow">Murano Software</a>
+        <span class="js-only">for the last <time-ago date="2016-04-25T12:00:00.000Z"></time-ago>.</span>
+        <span class="no-js-only">since 2016.</span>
+        <span id="work" hidden>
+          I'm
+          <collapse-entry once>
+            <collapse-handle class="follow">responsible</collapse-handle>
+            <collapse-content forwards="product-development" hidden></collapse-content>
+          </collapse-entry>
+          for the technical implementation of the product design system.
+          <span id="product-development" hidden>Also a member of the product development team.</span>
+        </span>
+      </p>
+    </main>
   </body>
 </html>
