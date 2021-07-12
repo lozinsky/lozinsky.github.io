@@ -97,7 +97,7 @@ a {
 
 .follow {
   --follow-offset: 0.25em;
-  --follow-height: 0.1em;
+  --follow-decoration-height: 0.1em;
 
   background-image: linear-gradient(
     90deg,
@@ -106,7 +106,7 @@ a {
   );
   background-position: bottom;
   background-repeat: no-repeat;
-  background-size: 100% var(--follow-height);
+  background-size: 100% var(--follow-decoration-height);
   border-radius: 0.3em;
   color: hsl(var(--follow-hue), var(--follow-color-saturation), var(--follow-color-lightness));
   margin: 0 calc(var(--follow-offset) * -1);
@@ -117,12 +117,12 @@ a {
 }
 
 .follow:hover {
-  --follow-height: 100%;
+  --follow-decoration-height: 100%;
 }
 
 .js .follow.focus-visible,
 .no-js .follow:focus {
-  --follow-height: 100%;
+  --follow-decoration-height: 100%;
   --follow-decoration-saturation: var(--follow-focus-decoration-saturation);
   --follow-decoration-lightness: var(--follow-focus-decoration-lightness);
 
