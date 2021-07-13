@@ -96,7 +96,7 @@ a {
 }
 
 .follow {
-  --follow-offset: 0.25em;
+  --follow-decoration-offset: 0.25em;
   --follow-decoration-height: 0.1em;
 
   background-image: linear-gradient(
@@ -109,9 +109,9 @@ a {
   background-size: 100% var(--follow-decoration-height);
   border-radius: 0.3em;
   color: hsl(var(--follow-hue), var(--follow-color-saturation), var(--follow-color-lightness));
-  margin: 0 calc(var(--follow-offset) * -1);
+  margin: 0 calc(var(--follow-decoration-offset) * -1);
   outline: none;
-  padding: 0 var(--follow-offset);
+  padding: 0 var(--follow-decoration-offset);
   transition-duration: 0.2s;
   transition-property: background-size, color;
 }
