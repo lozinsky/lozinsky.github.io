@@ -45,7 +45,7 @@ html {
 body {
   background-color: var(--background-color);
   color: var(--color);
-  margin: 1rem;
+  margin: 0.5rem;
 }
 
 main {
