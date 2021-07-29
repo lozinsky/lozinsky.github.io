@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "build": "vite build --assetsInlineLimit 1024",
     "lint": "eslint .",
     "test": "wtr **/*.test.js --node-resolve"
   },
