@@ -4,7 +4,7 @@
     "sourceType": "module",
     "requireConfigFile": false
   },
-  "plugins": ["prettier", "import", "prefer-let", "jsdoc"],
+  "plugins": ["prettier", "import", "github", "prefer-let", "jsdoc"],
   "env": {
     "browser": true,
     "es6": true,
@@ -105,6 +105,10 @@
     "import/no-duplicates": "error",
     "import/no-named-default": "error",
     "import/extensions": ["error", "always", { "ignorePackages": true }],
+    "github/array-foreach": "error",
+    "github/async-currenttarget": "error",
+    "github/async-preventdefault": "error",
+    "github/get-attribute": "error",
     "jsdoc/require-param": ["error", { "checkSetters": true }],
     "jsdoc/require-param-name": "error",
     "jsdoc/require-param-type": "error",
