@@ -4,7 +4,7 @@
     "sourceType": "module",
     "requireConfigFile": false
   },
-  "plugins": ["import", "prefer-let", "jsdoc"],
+  "plugins": ["prettier", "import", "prefer-let", "jsdoc"],
   "ignorePatterns": ["dist"],
   "overrides": [
     {
@@ -92,6 +92,7 @@
     "prefer-object-spread": "error",
     "spaced-comment": "error",
     "unicode-bom": "error",
+    "prettier/prettier": "error",
     "prefer-let/prefer-let": "error",
     "import/no-default-export": "error",
     "import/export": "error",
