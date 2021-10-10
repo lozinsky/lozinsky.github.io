@@ -4,7 +4,7 @@
     "sourceType": "module",
     "requireConfigFile": false
   },
-  "plugins": ["import", "security", "prefer-let", "jsdoc"],
+  "plugins": ["import", "prefer-let", "jsdoc"],
   "ignorePatterns": ["dist"],
   "overrides": [
     {
@@ -93,14 +93,6 @@
     "spaced-comment": "error",
     "unicode-bom": "error",
     "prefer-let/prefer-let": "error",
-    "security/detect-possible-timing-attacks": "error",
-    "security/detect-eval-with-expression": "error",
-    "security/detect-non-literal-require": "error",
-    "security/detect-non-literal-regexp": "error",
-    "security/detect-pseudoRandomBytes": "error",
-    "security/detect-buffer-noassert": "error",
-    "security/detect-unsafe-regex": "error",
-    "security/detect-new-buffer": "error",
     "import/no-default-export": "error",
     "import/export": "error",
     "import/first": "error",
