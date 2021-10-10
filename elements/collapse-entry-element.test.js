@@ -1,5 +1,5 @@
 import { expect } from '@esm-bundle/chai';
-import sinon from 'sinon';
+import { spy } from 'sinon';
 
 import { CollapseEntryElement } from './collapse-entry-element.js';
 import { CollapseContentElement } from './collapse-content-element.js';
@@ -162,7 +162,7 @@ describe('collapse-entry-element', () => {
       </collapse-entry>
     `);
     let collapseHandleToggleEvent = new CustomEvent('collapse-handle-toggle', { bubbles: true });
-    let stopPropagation = sinon.spy(collapseHandleToggleEvent, 'stopPropagation');
+    let stopPropagation = spy(collapseHandleToggleEvent, 'stopPropagation');
 
     await when('collapse-entry-closed');
 

@@ -1,5 +1,5 @@
 import { expect } from '@esm-bundle/chai';
-import sinon from 'sinon';
+import { useFakeTimers } from 'sinon';
 
 import { TimeAgoElement } from './time-ago-element.js';
 
@@ -9,7 +9,7 @@ describe('time-ago-element', () => {
   beforeEach(() => {
     document.documentElement.lang = 'en';
 
-    sinon.useFakeTimers({
+    useFakeTimers({
       now: new Date('2021-07-05T12:00:00.000Z').getTime(),
       shouldAdvanceTime: true,
     });

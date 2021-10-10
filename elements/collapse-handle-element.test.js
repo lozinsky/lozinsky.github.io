@@ -1,5 +1,5 @@
 import { expect } from '@esm-bundle/chai';
-import sinon from 'sinon';
+import { fake, spy } from 'sinon';
 
 import { CollapseHandleElement } from './collapse-handle-element.js';
 
@@ -49,7 +49,7 @@ describe('collapse-handle-element', () => {
 
   it('triggers "collapse-handle-toggle" event on click when is enabled', () => {
     let { collapseHandle } = setup(`<collapse-handle>Foo</collapse-handle>`);
-    let handleCollapseHandleToggle = sinon.fake();
+    let handleCollapseHandleToggle = fake();
 
     collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
     collapseHandle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
@@ -59,7 +59,7 @@ describe('collapse-handle-element', () => {
 
   it('does not trigger "collapse-handle-toggle" event on click when is disabled', () => {
     let { collapseHandle } = setup(`<collapse-handle disabled="">Foo</collapse-handle>`);
-    let handleCollapseHandleToggle = sinon.fake();
+    let handleCollapseHandleToggle = fake();
 
     collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
     collapseHandle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
@@ -70,7 +70,7 @@ describe('collapse-handle-element', () => {
   for (let key of keys) {
     it(`triggers "collapse-handle-toggle" event on "${key}" keydown when is enabled`, () => {
       let { collapseHandle } = setup(`<collapse-handle>Foo</collapse-handle>`);
-      let handleCollapseHandleToggle = sinon.fake();
+      let handleCollapseHandleToggle = fake();
 
       collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
       collapseHandle.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key }));
@@ -80,7 +80,7 @@ describe('collapse-handle-element', () => {
 
     it(`does not trigger "collapse-handle-toggle" event on "${key}" keydown when is disabled`, () => {
       let { collapseHandle } = setup(`<collapse-handle disabled="">Foo</collapse-handle>`);
-      let handleCollapseHandleToggle = sinon.fake();
+      let handleCollapseHandleToggle = fake();
 
       collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
       collapseHandle.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key }));
@@ -91,7 +91,7 @@ describe('collapse-handle-element', () => {
 
   it('blurs when is focused and is disabled', () => {
     let { collapseHandle } = setup(`<collapse-handle>Foo</collapse-handle>`);
-    let blur = sinon.spy(collapseHandle, 'blur');
+    let blur = spy(collapseHandle, 'blur');
 
     collapseHandle.focus();
     collapseHandle.disabled = true;
@@ -101,7 +101,7 @@ describe('collapse-handle-element', () => {
 
   it('does not blur when is blurred and is disabled', () => {
     let { collapseHandle } = setup(`<collapse-handle>Foo</collapse-handle>`);
-    let blur = sinon.spy(collapseHandle, 'blur');
+    let blur = spy(collapseHandle, 'blur');
 
     collapseHandle.disabled = true;
 

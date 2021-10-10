@@ -4,11 +4,14 @@
     "sourceType": "module",
     "requireConfigFile": false
   },
-  "plugins": ["prettier", "import", "github", "prefer-let", "jsdoc"],
+  "plugins": ["prettier", "prefer-let", "import", "github", "jsdoc"],
   "env": {
     "browser": true,
     "es6": true,
     "mocha": true
+  },
+  "settings": {
+    "jsdoc": { "mode": "typescript" }
   },
   "ignorePatterns": ["dist"],
   "overrides": [
@@ -33,6 +36,16 @@
     "no-empty": "error",
     "no-ex-assign": "error",
     "no-extra-boolean-cast": "error",
+    "constructor-super": "error",
+    "no-this-before-super": "error",
+    "no-unreachable": "error",
+    "no-dupe-args": "error",
+    "no-dupe-keys": "error",
+    "no-inner-declarations": "error",
+    "no-undef": "error",
+    "no-unused-vars": "error",
+    "valid-typeof": "error",
+    "no-class-assign": "error",
     "no-prototype-builtins": "error",
     "no-template-curly-in-string": "error",
     "no-unsafe-finally": "error",
@@ -97,23 +110,35 @@
     "prefer-object-spread": "error",
     "spaced-comment": "error",
     "unicode-bom": "error",
+
     "prettier/prettier": "error",
+
     "prefer-let/prefer-let": "error",
+
     "import/no-default-export": "error",
     "import/export": "error",
     "import/first": "error",
     "import/no-duplicates": "error",
     "import/no-named-default": "error",
+    "import/named": "error",
+    "import/newline-after-import": "error",
+    "import/no-cycle": "error",
+    "import/no-mutable-exports": "error",
     "import/extensions": ["error", "always", { "ignorePackages": true }],
+    "import/no-unresolved": "error",
+    "import/no-nodejs-modules": "error",
+
     "github/array-foreach": "error",
     "github/async-currenttarget": "error",
     "github/async-preventdefault": "error",
     "github/get-attribute": "error",
+
     "jsdoc/require-param": ["error", { "checkSetters": true }],
     "jsdoc/require-param-name": "error",
     "jsdoc/require-param-type": "error",
     "jsdoc/require-returns": ["error", { "forceRequireReturn": true, "forceReturnsWithAsync": true }],
     "jsdoc/require-returns-type": "error",
-    "jsdoc/require-returns-check": "error"
+    "jsdoc/require-returns-check": "error",
+    "jsdoc/no-undefined-types": "error"
   }
 }

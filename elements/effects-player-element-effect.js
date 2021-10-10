@@ -40,7 +40,7 @@ export class EffectsPlayerElementEffect {
    *
    * @returns {Promise<void>}
    */
-  async draw(element, task) {
+  async draw() {
     throw new Error('Unimplemented');
   }
 
