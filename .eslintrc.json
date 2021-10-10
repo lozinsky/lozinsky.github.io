@@ -5,6 +5,11 @@
     "requireConfigFile": false
   },
   "plugins": ["prettier", "import", "prefer-let", "jsdoc"],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "mocha": true
+  },
   "ignorePatterns": ["dist"],
   "overrides": [
     {
