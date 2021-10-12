@@ -39,7 +39,7 @@ describe('collapse-entry-element', () => {
   }
 
   it('shows "collapse-content" when is opened', async () => {
-    let { collapseContent } = setup(`
+    let { collapseContent } = setup(/* HTML */ `
       <collapse-entry opened="">
         <span><collapse-handle>Foo</collapse-handle></span>
         <collapse-content hidden="">Bar</collapse-content>
@@ -52,7 +52,7 @@ describe('collapse-entry-element', () => {
   });
 
   it('hides "collapse-content" when is closed', async () => {
-    let { collapseContent } = setup(`
+    let { collapseContent } = setup(/* HTML */ `
       <collapse-entry>
         <span><collapse-handle>Foo</collapse-handle></span>
         <collapse-content>Bar</collapse-content>
@@ -65,7 +65,7 @@ describe('collapse-entry-element', () => {
   });
 
   it('adds "true" "aria-expanded" attribute to "collapse-handle" when is opened', async () => {
-    let { collapseHandle } = setup(`
+    let { collapseHandle } = setup(/* HTML */ `
       <collapse-entry opened="">
         <span><collapse-handle>Foo</collapse-handle></span>
         <collapse-content hidden="">Bar</collapse-content>
@@ -78,7 +78,7 @@ describe('collapse-entry-element', () => {
   });
 
   it('adds "false" "aria-expanded" attribute to "collapse-handle" when is closed', async () => {
-    let { collapseHandle } = setup(`
+    let { collapseHandle } = setup(/* HTML */ `
       <collapse-entry>
         <span><collapse-handle>Foo</collapse-handle></span>
         <collapse-content>Bar</collapse-content>
@@ -91,7 +91,7 @@ describe('collapse-entry-element', () => {
   });
 
   it('enables "collapse-handle" when once is changed to false', async () => {
-    let { collapseEntry, collapseHandle } = setup(`
+    let { collapseEntry, collapseHandle } = setup(/* HTML */ `
       <collapse-entry once="">
         <span><collapse-handle disabled="">Foo</collapse-handle></span>
         <collapse-content>Bar</collapse-content>
@@ -108,7 +108,7 @@ describe('collapse-entry-element', () => {
   });
 
   it('disables "collapse-handle" on "collapse-handle-toggle" event when once is defined', async () => {
-    let { collapseEntry, collapseHandle } = setup(`
+    let { collapseEntry, collapseHandle } = setup(/* HTML */ `
       <collapse-entry once="">
         <span><collapse-handle>Foo</collapse-handle></span>
         <collapse-content>Bar</collapse-content>
@@ -125,7 +125,7 @@ describe('collapse-entry-element', () => {
   });
 
   it('opens on "collapse-handle-toggle" event when is closed', async () => {
-    let { collapseEntry } = setup(`
+    let { collapseEntry } = setup(/* HTML */ `
       <collapse-entry>
         <span><collapse-handle>Foo</collapse-handle></span>
         <collapse-content>Bar</collapse-content>
@@ -140,7 +140,7 @@ describe('collapse-entry-element', () => {
   });
 
   it('closes on "collapse-handle-toggle" event when is opened', async () => {
-    let { collapseEntry } = setup(`
+    let { collapseEntry } = setup(/* HTML */ `
       <collapse-entry opened="">
         <span><collapse-handle>Foo</collapse-handle></span>
         <collapse-content hidden="">Bar</collapse-content>
@@ -155,7 +155,7 @@ describe('collapse-entry-element', () => {
   });
 
   it('stops "collapse-handle-toggle" event propagation', async () => {
-    let { collapseEntry } = setup(`
+    let { collapseEntry } = setup(/* HTML */ `
       <collapse-entry>
         <span><collapse-handle>Foo</collapse-handle></span>
         <collapse-content>Bar</collapse-content>

@@ -24,31 +24,31 @@ describe('collapse-handle-element', () => {
   }
 
   it('adds "0" "tabindex" attribute when is enabled', () => {
-    let { collapseHandle } = setup(`<collapse-handle>Foo</collapse-handle>`);
+    let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
 
     expect(collapseHandle.getAttribute('tabindex')).to.equal('0');
   });
 
   it('removes "0" "tabindex" attribute when is disabled', () => {
-    let { collapseHandle } = setup(`<collapse-handle disabled="">Foo</collapse-handle>`);
+    let { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
 
     expect(collapseHandle.getAttribute('tabindex')).to.equal(null);
   });
 
   it('adds "button" "role" attribute when is enabled', () => {
-    let { collapseHandle } = setup(`<collapse-handle>Foo</collapse-handle>`);
+    let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
 
     expect(collapseHandle.getAttribute('role')).to.equal('button');
   });
 
   it('removes "button" "role" attribute when is disabled', () => {
-    let { collapseHandle } = setup(`<collapse-handle disabled="">Foo</collapse-handle>`);
+    let { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
 
     expect(collapseHandle.getAttribute('role')).to.equal(null);
   });
 
   it('triggers "collapse-handle-toggle" event on click when is enabled', () => {
-    let { collapseHandle } = setup(`<collapse-handle>Foo</collapse-handle>`);
+    let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
     let handleCollapseHandleToggle = fake();
 
     collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
@@ -58,7 +58,7 @@ describe('collapse-handle-element', () => {
   });
 
   it('does not trigger "collapse-handle-toggle" event on click when is disabled', () => {
-    let { collapseHandle } = setup(`<collapse-handle disabled="">Foo</collapse-handle>`);
+    let { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
     let handleCollapseHandleToggle = fake();
 
     collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
@@ -69,7 +69,7 @@ describe('collapse-handle-element', () => {
 
   for (let key of keys) {
     it(`triggers "collapse-handle-toggle" event on "${key}" keydown when is enabled`, () => {
-      let { collapseHandle } = setup(`<collapse-handle>Foo</collapse-handle>`);
+      let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
       let handleCollapseHandleToggle = fake();
 
       collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
@@ -79,7 +79,7 @@ describe('collapse-handle-element', () => {
     });
 
     it(`does not trigger "collapse-handle-toggle" event on "${key}" keydown when is disabled`, () => {
-      let { collapseHandle } = setup(`<collapse-handle disabled="">Foo</collapse-handle>`);
+      let { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
       let handleCollapseHandleToggle = fake();
 
       collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
@@ -90,7 +90,7 @@ describe('collapse-handle-element', () => {
   }
 
   it('blurs when is focused and is disabled', () => {
-    let { collapseHandle } = setup(`<collapse-handle>Foo</collapse-handle>`);
+    let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
     let blur = spy(collapseHandle, 'blur');
 
     collapseHandle.focus();
@@ -100,7 +100,7 @@ describe('collapse-handle-element', () => {
   });
 
   it('does not blur when is blurred and is disabled', () => {
-    let { collapseHandle } = setup(`<collapse-handle>Foo</collapse-handle>`);
+    let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
     let blur = spy(collapseHandle, 'blur');
 
     collapseHandle.disabled = true;

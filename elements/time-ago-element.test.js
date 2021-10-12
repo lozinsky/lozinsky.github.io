@@ -43,14 +43,14 @@ describe('time-ago-element', () => {
     ['2009-07-05T12:00:00.000Z', '13 years'],
   ]) {
     it(`assigns text content "${expected}" when "date" is "${date}"`, () => {
-      let { timeAgo } = setup(`<time-ago date="${date}"></time-ago>`);
+      let { timeAgo } = setup(/* HTML */ `<time-ago date="${date}"></time-ago>`);
 
       expect(timeAgo.textContent).to.equal(expected);
     });
   }
 
   it('assigns new text content when "date" is changed', () => {
-    let { timeAgo } = setup(`<time-ago date="2021-07-05T12:00:00.000Z"></time-ago>`);
+    let { timeAgo } = setup(/* HTML */ `<time-ago date="2021-07-05T12:00:00.000Z"></time-ago>`);
 
     timeAgo.date = new Date('2019-07-05T12:00:00.000Z');
 
