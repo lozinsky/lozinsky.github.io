@@ -1,14 +1,13 @@
 {
-  "parser": "@babel/eslint-parser",
-  "parserOptions": {
-    "sourceType": "module",
-    "requireConfigFile": false
-  },
   "plugins": ["prettier", "prefer-let", "import", "github", "jsdoc"],
   "env": {
     "browser": true,
     "es6": true,
     "mocha": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest"
   },
   "settings": {
     "jsdoc": { "mode": "typescript" }
@@ -37,6 +36,11 @@
     "no-ex-assign": "error",
     "no-extra-boolean-cast": "error",
     "constructor-super": "error",
+    "max-classes-per-file": "error",
+    "no-unused-private-class-members": "error",
+    "no-unsafe-optional-chaining": "error",
+    "no-useless-backreference": "error",
+    "no-import-assign": "error",
     "no-this-before-super": "error",
     "no-unreachable": "error",
     "no-dupe-args": "error",
