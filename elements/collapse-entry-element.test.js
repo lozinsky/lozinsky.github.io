@@ -1,8 +1,8 @@
 import { expect } from '@esm-bundle/chai';
 import { spy } from 'sinon';
 
-import { CollapseEntryElement } from './collapse-entry-element.js';
 import { CollapseContentElement } from './collapse-content-element.js';
+import { CollapseEntryElement } from './collapse-entry-element.js';
 import { CollapseHandleElement } from './collapse-handle-element.js';
 
 describe('collapse-entry-element', () => {

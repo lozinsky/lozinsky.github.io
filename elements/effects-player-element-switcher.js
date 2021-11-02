@@ -1,7 +1,7 @@
 import { EffectsPlayerElementCodeEffect } from './effects-player-element-code-effect.js';
-import { EffectsPlayerElementRainEffect } from './effects-player-element-rain-effect.js';
-import { EffectsPlayerElementFireworkEffect } from './effects-player-element-firework-effect.js';
 import { EffectsPlayerElementEffect } from './effects-player-element-effect.js';
+import { EffectsPlayerElementFireworkEffect } from './effects-player-element-firework-effect.js';
+import { EffectsPlayerElementRainEffect } from './effects-player-element-rain-effect.js';
 
 export class EffectsPlayerElementSwitcher {
   /**

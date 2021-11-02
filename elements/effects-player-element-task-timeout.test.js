@@ -1,7 +1,7 @@
-import { expect, assert } from '@esm-bundle/chai';
+import { assert, expect } from '@esm-bundle/chai';
 
-import { EffectsPlayerElementTaskTimeout } from './effects-player-element-task-timeout.js';
 import { EffectsPlayerElementTaskError } from './effects-player-element-task-error.js';
+import { EffectsPlayerElementTaskTimeout } from './effects-player-element-task-timeout.js';
 
 describe('effects-player-element-task-timeout', () => {
   function setup() {

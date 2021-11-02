@@ -21,6 +21,7 @@
     "eslint-plugin-jsdoc": "^37.0.3",
     "eslint-plugin-prefer-let": "^3.0.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "prettier": "^2.4.1",
     "sinon": "^11.1.2",
     "vite": "^2.6.13"

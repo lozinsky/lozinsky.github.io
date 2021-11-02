@@ -1,7 +1,7 @@
-import { expect, assert } from '@esm-bundle/chai';
+import { assert, expect } from '@esm-bundle/chai';
 
-import { EffectsPlayerElementTaskTransition } from './effects-player-element-task-transition.js';
 import { EffectsPlayerElementTaskError } from './effects-player-element-task-error.js';
+import { EffectsPlayerElementTaskTransition } from './effects-player-element-task-transition.js';
 
 describe('effects-player-element-task-transition', () => {
   function setup() {

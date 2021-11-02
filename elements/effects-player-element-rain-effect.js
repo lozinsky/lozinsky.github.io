@@ -1,6 +1,6 @@
 import { EffectsPlayerElementEffect } from './effects-player-element-effect.js';
-import { EffectsPlayerElementTask } from './effects-player-element-task.js';
 import { range, takeAny } from './effects-player-element-random.js';
+import { EffectsPlayerElementTask } from './effects-player-element-task.js';
 
 export class EffectsPlayerElementRainEffect extends EffectsPlayerElementEffect {
   /**

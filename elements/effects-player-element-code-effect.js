@@ -1,6 +1,6 @@
 import { EffectsPlayerElementEffect } from './effects-player-element-effect.js';
-import { EffectsPlayerElementTask } from './effects-player-element-task.js';
 import { range } from './effects-player-element-random.js';
+import { EffectsPlayerElementTask } from './effects-player-element-task.js';
 
 export class EffectsPlayerElementCodeEffect extends EffectsPlayerElementEffect {
   /**
