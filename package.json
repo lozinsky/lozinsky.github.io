@@ -10,20 +10,20 @@
     "test": "wtr **/*.test.js --node-resolve"
   },
   "dependencies": {
-    "focus-visible": "^5.2.0"
+    "focus-visible": "5.2.0"
   },
   "devDependencies": {
-    "@esm-bundle/chai": "^4.3.4",
-    "@web/test-runner": "^0.13.21",
-    "eslint": "^8.1.0",
-    "eslint-plugin-github": "^4.3.3",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jsdoc": "^37.0.3",
-    "eslint-plugin-prefer-let": "^3.0.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-simple-import-sort": "^7.0.0",
-    "prettier": "^2.4.1",
-    "sinon": "^12.0.1",
-    "vite": "^2.6.13"
+    "@esm-bundle/chai": "4.3.4",
+    "@web/test-runner": "0.13.21",
+    "eslint": "8.1.0",
+    "eslint-plugin-github": "4.3.3",
+    "eslint-plugin-import": "2.25.2",
+    "eslint-plugin-jsdoc": "37.0.3",
+    "eslint-plugin-prefer-let": "3.0.1",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-simple-import-sort": "7.0.0",
+    "prettier": "2.4.1",
+    "sinon": "12.0.1",
+    "vite": "2.6.13"
   }
 }
