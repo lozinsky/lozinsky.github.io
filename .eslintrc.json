@@ -1,5 +1,5 @@
 {
-  "plugins": ["prettier", "prefer-let", "simple-import-sort", "import", "github", "jsdoc"],
+  "plugins": ["prettier", "prefer-let", "compat", "simple-import-sort", "import", "github", "jsdoc"],
   "env": {
     "browser": true,
     "es6": true,
@@ -118,6 +118,8 @@
     "prettier/prettier": "error",
 
     "prefer-let/prefer-let": "error",
+
+    "compat/compat": "error",
 
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
