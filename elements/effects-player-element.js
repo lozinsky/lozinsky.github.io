@@ -70,10 +70,16 @@ export class EffectsPlayerElement extends HTMLElement {
   }
 
   /**
+   * @param {MouseEvent} event
+   *
    * @returns {void}
    */
-  #handleClick() {
-    this.stopped = false;
+  #handleClick(event) {
+    if (this.stopped) {
+      event.stopPropagation();
+
+      this.stopped = false;
+    }
   }
 
   /**
@@ -116,14 +122,10 @@ export class EffectsPlayerElement extends HTMLElement {
     let playing = new AbortController();
 
     /**
-     * @param {MouseEvent} event
-     *
      * @returns {void}
      */
-    let handleDocumentClick = (event) => {
-      if (!this.isSameNode(event.target)) {
-        this.stopped = true;
-      }
+    let handleDocumentClick = () => {
+      this.stopped = true;
     };
 
     /**
