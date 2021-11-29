@@ -2,58 +2,17 @@ import { EffectsPlayerElementEffect } from './effects-player-element-effect.js';
 import { range } from './effects-player-element-random.js';
 import { EffectsPlayerElementTask } from './effects-player-element-task.js';
 
+const CODE = document.documentElement.innerHTML;
+const MIN_FONT_SIZE = 1;
+const MAX_FONT_SIZE = 3;
+const MIN_OPACITY = 10;
+const MAX_OPACITY = 30;
+const MIN_TRANSITION_DURATION = 20000;
+const MAX_TRANSITION_DURATION = 50000;
+const MIN_TRANSLATE_X = -10;
+const MAX_TRANSLATE_X = 10;
+
 export class EffectsPlayerElementCodeEffect extends EffectsPlayerElementEffect {
-  /**
-   * @type {string}
-   */
-  #code;
-  /**
-   * @type {number}
-   */
-  #minFontSize;
-  /**
-   * @type {number}
-   */
-  #maxFontSize;
-  /**
-   * @type {number}
-   */
-  #minOpacity;
-  /**
-   * @type {number}
-   */
-  #maxOpacity;
-  /**
-   * @type {number}
-   */
-  #minTransitionDuration;
-  /**
-   * @type {number}
-   */
-  #maxTransitionDuration;
-  /**
-   * @type {number}
-   */
-  #minTranslateX;
-  /**
-   * @type {number}
-   */
-  #maxTranslateX;
-
-  constructor() {
-    super();
-
-    this.#code = document.documentElement.innerHTML;
-    this.#minFontSize = 1;
-    this.#maxFontSize = 3;
-    this.#minOpacity = 10;
-    this.#maxOpacity = 30;
-    this.#minTransitionDuration = 20000;
-    this.#maxTransitionDuration = 50000;
-    this.#minTranslateX = -10;
-    this.#maxTranslateX = 10;
-  }
-
   /**
    * @override
    *
@@ -70,12 +29,12 @@ export class EffectsPlayerElementCodeEffect extends EffectsPlayerElementEffect {
    */
   init() {
     let code = document.createElement('pre');
-    let fontSize = range(this.#minFontSize, this.#maxFontSize);
-    let opacity = range(this.#minOpacity, this.#maxOpacity);
-    let transitionDuration = range(this.#minTransitionDuration, this.#maxTransitionDuration);
-    let translateX = range(this.#minTranslateX, this.#maxTranslateX);
+    let fontSize = range(MIN_FONT_SIZE, MAX_FONT_SIZE);
+    let opacity = range(MIN_OPACITY, MAX_OPACITY);
+    let transitionDuration = range(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
+    let translateX = range(MIN_TRANSLATE_X, MAX_TRANSLATE_X);
 
-    code.textContent = this.#code;
+    code.textContent = CODE;
     code.style.fontSize = `${fontSize}rem`;
     code.style.left = '0';
     code.style.opacity = `${opacity}%`;

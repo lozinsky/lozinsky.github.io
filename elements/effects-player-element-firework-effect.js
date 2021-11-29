@@ -3,89 +3,23 @@ import { range, takeAny } from './effects-player-element-random.js';
 import { EffectsPlayerElementTask } from './effects-player-element-task.js';
 
 const TAU = 2 * Math.PI;
+const PARTICLES = ['\u{2728}', '\u{2b50}', '\u{1f31f}'];
+const VIEWPORT_PADDING = 100;
+const MIN_CIRCLES_QUANTITY = 5;
+const MAX_CIRCLES_QUANTITY = 9;
+const MIN_CIRCLES_DENSITY = 2;
+const MAX_CIRCLES_DENSITY = 4;
+const MIN_START_DELAY = 1;
+const MAX_START_DELAY = 5000;
+const MIN_TRANSITION_DURATION = 500;
+const MAX_TRANSITION_DURATION = 1000;
+const PARTICLE_TRANSITION_DURATION = 1000;
+const MIN_HUE_ROTATE_ANGLE = 0;
+const MAX_HUE_ROTATE_ANGLE = 360;
+const MIN_PARTICLE_BIAS = -50;
+const MAX_PARTICLE_BIAS = 50;
 
 export class EffectsPlayerElementFireworkEffect extends EffectsPlayerElementEffect {
-  /**
-   * @type {string[]}
-   */
-  #particles;
-  /**
-   * @type {number}
-   */
-  #viewportPadding;
-  /**
-   * @type {number}
-   */
-  #minCirclesQuantity;
-  /**
-   * @type {number}
-   */
-  #maxCirclesQuantity;
-  /**
-   * @type {number}
-   */
-  #minCirclesDensity;
-  /**
-   * @type {number}
-   */
-  #maxCirclesDensity;
-  /**
-   * @type {number}
-   */
-  #minStartDelay;
-  /**
-   * @type {number}
-   */
-  #maxStartDelay;
-  /**
-   * @type {number}
-   */
-  #minTransitionDuration;
-  /**
-   * @type {number}
-   */
-  #maxTransitionDuration;
-  /**
-   * @type {number}
-   */
-  #particleTransitionDuration;
-  /**
-   * @type {number}
-   */
-  #minHueRotateAngle;
-  /**
-   * @type {number}
-   */
-  #maxHueRotateAngle;
-  /**
-   * @type {number}
-   */
-  #minParticleBias;
-  /**
-   * @type {number}
-   */
-  #maxParticleBias;
-
-  constructor() {
-    super();
-
-    this.#particles = ['\u{2728}', '\u{2b50}', '\u{1f31f}'];
-    this.#viewportPadding = 100;
-    this.#minCirclesQuantity = 5;
-    this.#maxCirclesQuantity = 9;
-    this.#minCirclesDensity = 2;
-    this.#maxCirclesDensity = 4;
-    this.#minStartDelay = 1;
-    this.#maxStartDelay = 5000;
-    this.#minTransitionDuration = 500;
-    this.#maxTransitionDuration = 1000;
-    this.#particleTransitionDuration = 1000;
-    this.#minHueRotateAngle = 0;
-    this.#maxHueRotateAngle = 360;
-    this.#minParticleBias = -50;
-    this.#maxParticleBias = 50;
-  }
-
   /**
    * @override
    *
@@ -102,8 +36,8 @@ export class EffectsPlayerElementFireworkEffect extends EffectsPlayerElementEffe
    */
   init() {
     let firework = document.createElement('span');
-    let circlesQuantity = range(this.#minCirclesQuantity, this.#maxCirclesQuantity);
-    let hueRotateAngle = range(this.#minHueRotateAngle, this.#maxHueRotateAngle);
+    let circlesQuantity = range(MIN_CIRCLES_QUANTITY, MAX_CIRCLES_QUANTITY);
+    let hueRotateAngle = range(MIN_HUE_ROTATE_ANGLE, MAX_HUE_ROTATE_ANGLE);
 
     firework.style.fontSize = '0.5rem';
     firework.style.bottom = '0';
@@ -124,11 +58,11 @@ export class EffectsPlayerElementFireworkEffect extends EffectsPlayerElementEffe
       for (let j = 0; j < particlesQuantity; j++) {
         let particle = document.createElement('span');
 
-        particle.textContent = takeAny(this.#particles);
+        particle.textContent = takeAny(PARTICLES);
         particle.style.position = 'absolute';
         particle.style.transform = 'translate(var(--particle-x), var(--particle-y))';
         particle.style.transitionProperty = 'transform, opacity';
-        particle.style.transitionDuration = `${this.#particleTransitionDuration}ms`;
+        particle.style.transitionDuration = `${PARTICLE_TRANSITION_DURATION}ms`;
         particle.style.transitionTimingFunction = 'ease-out';
 
         circle.appendChild(particle);
@@ -152,12 +86,12 @@ export class EffectsPlayerElementFireworkEffect extends EffectsPlayerElementEffe
     /** @type {HTMLElement[]}  */
     let circles = [...firework.children];
     let circlesQuantity = circles.length;
-    let circlesDensity = range(this.#minCirclesDensity, this.#maxCirclesDensity);
-    let transitionDuration = range(this.#minTransitionDuration, this.#maxTransitionDuration);
-    let startDelay = range(this.#minStartDelay, this.#maxStartDelay);
-    let startX = range(this.#viewportPadding, window.innerWidth - this.#viewportPadding);
+    let circlesDensity = range(MIN_CIRCLES_DENSITY, MAX_CIRCLES_DENSITY);
+    let transitionDuration = range(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
+    let startDelay = range(MIN_START_DELAY, MAX_START_DELAY);
+    let startX = range(VIEWPORT_PADDING, window.innerWidth - VIEWPORT_PADDING);
     let startY = firework.offsetHeight;
-    let endY = range(-this.#viewportPadding, -window.innerHeight + this.#viewportPadding);
+    let endY = range(-VIEWPORT_PADDING, -window.innerHeight + VIEWPORT_PADDING);
 
     firework.style.transitionDuration = `${startDelay}ms`;
     firework.style.setProperty('--firework-x', `${startX}px`);
@@ -181,8 +115,8 @@ export class EffectsPlayerElementFireworkEffect extends EffectsPlayerElementEffe
         await Promise.all(
           particles.map(async (particle, j) => {
             let particleAngle = (TAU * j) / particlesQuantity;
-            let particleBiasX = range(this.#minParticleBias, this.#maxParticleBias);
-            let particleBiasY = range(this.#minParticleBias, this.#maxParticleBias);
+            let particleBiasX = range(MIN_PARTICLE_BIAS, MAX_PARTICLE_BIAS);
+            let particleBiasY = range(MIN_PARTICLE_BIAS, MAX_PARTICLE_BIAS);
             let particleEndX = circleRadius * Math.cos(particleAngle) + particleBiasX;
             let particleEndY = circleRadius * Math.sin(particleAngle) + particleBiasY;
 

@@ -2,11 +2,14 @@ import { EffectsPlayerElementEffect } from './effects-player-element-effect.js';
 import { range, takeAny } from './effects-player-element-random.js';
 import { EffectsPlayerElementTask } from './effects-player-element-task.js';
 
+const DROPLET = '\u{1f4a7}';
+const SLOPES = [-200, 200];
+const MIN_TRANSITION_DURATION = 500;
+const MAX_TRANSITION_DURATION = 1000;
+const MIN_START_DELAY = 1;
+const MAX_START_DELAY = 5000;
+
 export class EffectsPlayerElementRainEffect extends EffectsPlayerElementEffect {
-  /**
-   * @type {string}
-   */
-  #droplet;
   /**
    * @type {number}
    */
@@ -15,23 +18,12 @@ export class EffectsPlayerElementRainEffect extends EffectsPlayerElementEffect {
    * @type {number}
    */
   #transitionDuration;
-  /**
-   * @type {number}
-   */
-  #minStartDelay;
-  /**
-   * @type {number}
-   */
-  #maxStartDelay;
 
   constructor() {
     super();
 
-    this.#droplet = '\u{1f4a7}';
-    this.#slope = takeAny([-200, 200]);
-    this.#transitionDuration = range(500, 1000);
-    this.#minStartDelay = 1;
-    this.#maxStartDelay = 5000;
+    this.#slope = takeAny(SLOPES);
+    this.#transitionDuration = range(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
   }
 
   /**
@@ -51,7 +43,7 @@ export class EffectsPlayerElementRainEffect extends EffectsPlayerElementEffect {
   init() {
     let droplet = document.createElement('span');
 
-    droplet.textContent = this.#droplet;
+    droplet.textContent = DROPLET;
     droplet.style.left = '0';
     droplet.style.pointerEvents = 'none';
     droplet.style.position = 'fixed';
@@ -73,7 +65,7 @@ export class EffectsPlayerElementRainEffect extends EffectsPlayerElementEffect {
    * @returns {Promise<void>}
    */
   async draw(droplet, task) {
-    let startDelay = range(this.#minStartDelay, this.#maxStartDelay);
+    let startDelay = range(MIN_START_DELAY, MAX_START_DELAY);
     let startX = range(-Math.abs(this.#slope), window.innerWidth);
     let startY = -droplet.offsetHeight;
     let endX = startX - this.#slope;
