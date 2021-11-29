@@ -1,3 +1,12 @@
+const MSECS_PER_SEC = 1000;
+const SECS_PER_MIN = 60;
+const MINS_PER_HOUR = 60;
+const HOURS_PER_DAY = 24;
+const DAYS_PER_WEEK = 7;
+const DAYS_PER_YEAR = 365;
+const MONTHS_PER_YEAR = 12;
+const WEEKS_PER_MONTH = DAYS_PER_YEAR / DAYS_PER_WEEK / MONTHS_PER_YEAR;
+
 export class TimeAgoElement extends HTMLElement {
   /**
    * @type {string[]}
@@ -48,23 +57,23 @@ export class TimeAgoElement extends HTMLElement {
    * @returns {string}
    */
   #formatToTextContent(msec) {
-    let sec = Math.floor(msec / 1000);
-    let min = Math.floor(sec / 60);
-    let hour = Math.floor(min / 60);
-    let day = Math.floor(hour / 24);
-    let week = Math.floor(day / 7);
-    let month = Math.floor(week / 4);
-    let year = Math.floor(month / 12);
+    let sec = msec / MSECS_PER_SEC;
+    let min = sec / SECS_PER_MIN;
+    let hour = min / MINS_PER_HOUR;
+    let day = hour / HOURS_PER_DAY;
+    let week = day / DAYS_PER_WEEK;
+    let month = week / WEEKS_PER_MONTH;
+    let year = month / MONTHS_PER_YEAR;
 
-    if (day < 7) {
+    if (day < DAYS_PER_WEEK) {
       return this.#formatToLocaleUnit(day, 'day');
     }
 
-    if (week < 4) {
+    if (week < WEEKS_PER_MONTH) {
       return this.#formatToLocaleUnit(week, 'week');
     }
 
-    if (month < 12) {
+    if (month < MONTHS_PER_YEAR) {
       return this.#formatToLocaleUnit(month, 'month');
     }
 
@@ -78,7 +87,7 @@ export class TimeAgoElement extends HTMLElement {
    * @returns {string}
    */
   #formatToLocaleUnit(target, unit) {
-    return target.toLocaleString(this.#closestLocale(), {
+    return Math.floor(target).toLocaleString(this.#closestLocale(), {
       unit,
       style: 'unit',
       unitDisplay: 'long',
