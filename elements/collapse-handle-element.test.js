@@ -1,5 +1,5 @@
 import { expect } from '@esm-bundle/chai';
-import { fake, spy } from 'sinon';
+import { restoreAll, spy, spyOn } from 'tinyspy';
 
 import { CollapseHandleElement } from './collapse-handle-element.js';
 
@@ -9,6 +9,8 @@ describe('collapse-handle-element', () => {
 
   afterEach(() => {
     root.innerHTML = '';
+
+    restoreAll();
   });
 
   /**
@@ -49,62 +51,62 @@ describe('collapse-handle-element', () => {
 
   it('triggers "collapse-handle-toggle" event on click when is enabled', () => {
     let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
-    let handleCollapseHandleToggle = fake();
+    let handleCollapseHandleToggle = spy();
 
     collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
     collapseHandle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
-    expect(handleCollapseHandleToggle.calledOnce).to.equal(true);
+    expect(handleCollapseHandleToggle.callCount).to.equal(1);
   });
 
   it('does not trigger "collapse-handle-toggle" event on click when is disabled', () => {
     let { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
-    let handleCollapseHandleToggle = fake();
+    let handleCollapseHandleToggle = spy();
 
     collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
     collapseHandle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
-    expect(handleCollapseHandleToggle.calledOnce).to.equal(false);
+    expect(handleCollapseHandleToggle.callCount).to.equal(0);
   });
 
   for (let key of keys) {
     it(`triggers "collapse-handle-toggle" event on "${key}" keydown when is enabled`, () => {
       let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
-      let handleCollapseHandleToggle = fake();
+      let handleCollapseHandleToggle = spy();
 
       collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
       collapseHandle.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key }));
 
-      expect(handleCollapseHandleToggle.calledOnce).to.equal(true);
+      expect(handleCollapseHandleToggle.callCount).to.equal(1);
     });
 
     it(`does not trigger "collapse-handle-toggle" event on "${key}" keydown when is disabled`, () => {
       let { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
-      let handleCollapseHandleToggle = fake();
+      let handleCollapseHandleToggle = spy();
 
       collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
       collapseHandle.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key }));
 
-      expect(handleCollapseHandleToggle.calledOnce).to.equal(false);
+      expect(handleCollapseHandleToggle.callCount).to.equal(0);
     });
   }
 
   it('blurs when is focused and is disabled', () => {
     let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
-    let blur = spy(collapseHandle, 'blur');
+    let blur = spyOn(collapseHandle, 'blur');
 
     collapseHandle.focus();
     collapseHandle.disabled = true;
 
-    expect(blur.calledOnce).to.equal(true);
+    expect(blur.callCount).to.equal(1);
   });
 
   it('does not blur when is blurred and is disabled', () => {
     let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
-    let blur = spy(collapseHandle, 'blur');
+    let blur = spyOn(collapseHandle, 'blur');
 
     collapseHandle.disabled = true;
 
-    expect(blur.calledOnce).to.equal(false);
+    expect(blur.callCount).to.equal(0);
   });
 });

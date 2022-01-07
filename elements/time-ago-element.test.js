@@ -1,5 +1,5 @@
 import { expect } from '@esm-bundle/chai';
-import { useFakeTimers } from 'sinon';
+import { restoreAll, spyOn } from 'tinyspy';
 
 import { TimeAgoElement } from './time-ago-element.js';
 
@@ -9,15 +9,25 @@ describe('time-ago-element', () => {
   beforeEach(() => {
     document.documentElement.lang = 'en';
 
-    useFakeTimers({
-      now: new Date('2021-07-05T12:00:00.000Z').getTime(),
-      shouldAdvanceTime: true,
-    });
+    useFakeTimers(new Date('2021-07-05T12:00:00.000Z').getTime());
   });
 
   afterEach(() => {
     root.innerHTML = '';
+
+    restoreAll();
   });
+
+  /**
+   * @param {number} timestamp
+   */
+  function useFakeTimers(timestamp) {
+    let now = spyOn(Date, 'now');
+    let original = now.getOriginal();
+    let start = original();
+
+    now.willCall(() => timestamp + (original() - start));
+  }
 
   /**
    * @param {string} template

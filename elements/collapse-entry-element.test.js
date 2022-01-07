@@ -1,5 +1,5 @@
 import { expect } from '@esm-bundle/chai';
-import { spy } from 'sinon';
+import { restoreAll, spyOn } from 'tinyspy';
 
 import { CollapseContentElement } from './collapse-content-element.js';
 import { CollapseEntryElement } from './collapse-entry-element.js';
@@ -10,6 +10,8 @@ describe('collapse-entry-element', () => {
 
   afterEach(() => {
     root.innerHTML = '';
+
+    restoreAll();
   });
 
   /**
@@ -162,12 +164,12 @@ describe('collapse-entry-element', () => {
       </collapse-entry>
     `);
     let collapseHandleToggleEvent = new CustomEvent('collapse-handle-toggle', { bubbles: true });
-    let stopPropagation = spy(collapseHandleToggleEvent, 'stopPropagation');
+    let stopPropagation = spyOn(collapseHandleToggleEvent, 'stopPropagation');
 
     await when('collapse-entry-closed');
 
     collapseEntry.dispatchEvent(collapseHandleToggleEvent);
 
-    expect(stopPropagation.calledOnce).to.equal(true);
+    expect(stopPropagation.callCount).to.equal(1);
   });
 });

@@ -48,7 +48,7 @@ export class TimeAgoElement extends HTMLElement {
    * @returns {void}
    */
   #handleDateChange(date) {
-    this.textContent = this.#formatToTextContent(new Date().getTime() - date.getTime());
+    this.textContent = this.#formatToTextContent(Date.now() - date.getTime());
   }
 
   /**
