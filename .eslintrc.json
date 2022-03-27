@@ -7,7 +7,7 @@
   },
   "parserOptions": {
     "sourceType": "module",
-    "ecmaVersion": "latest"
+    "ecmaVersion": "2022"
   },
   "settings": {
     "jsdoc": { "mode": "typescript" }
