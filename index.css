@@ -88,8 +88,7 @@ a {
   --follow-decoration-height: 100%;
 }
 
-.js .follow.focus-visible,
-.no-js .follow:focus {
+.follow:focus-visible {
   --follow-decoration-height: 100%;
   --follow-decoration-saturation: var(--follow-focus-decoration-saturation);
   --follow-decoration-lightness: var(--follow-focus-decoration-lightness);

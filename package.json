@@ -9,9 +9,6 @@
     "lint": "eslint .",
     "test": "wtr **/*.test.js --node-resolve"
   },
-  "dependencies": {
-    "focus-visible": "5.2.0"
-  },
   "devDependencies": {
     "@esm-bundle/chai": "4.3.4",
     "@web/test-runner": "0.13.27",
