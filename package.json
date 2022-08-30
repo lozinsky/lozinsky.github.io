@@ -22,6 +22,6 @@
     "eslint-plugin-simple-import-sort": "7.0.0",
     "prettier": "2.6.2",
     "tinyspy": "0.3.2",
-    "vite": "2.9.8"
+    "vite": "2.9.13"
   }
 }
