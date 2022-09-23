@@ -118,6 +118,7 @@ a {
   display: block;
 }
 
+.js .no-js-only,
 .no-js .js-only {
   display: none;
 }
