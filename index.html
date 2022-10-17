@@ -24,25 +24,15 @@
   <body>
     <main>
       <p>
-        Hi, my name is
+        Hi,
+        <collapse-entry once>
+          <collapse-handle class="follow">my</collapse-handle>
+          <collapse-content forwards="contacts" hidden></collapse-content>
+        </collapse-entry>
+        name is
         <collapse-entry>
           <span><collapse-handle class="follow">Pavel</collapse-handle>.</span>
-          <collapse-content hidden>
-            <collapse-entry once>
-              <span><collapse-handle class="follow">Pavel Lozinsky</collapse-handle>.</span>
-              <collapse-content hidden>
-                <collapse-entry once>
-                  <collapse-handle class="follow">I'm</collapse-handle>
-                  <collapse-content forwards="contacts" hidden></collapse-content>
-                </collapse-entry>
-                currently living in
-                <collapse-entry>
-                  <span><collapse-handle class="follow">Saint Petersburg</collapse-handle>.</span>
-                  <collapse-content hidden>Saint Petersburg, Russia.</collapse-content>
-                </collapse-entry>
-              </collapse-content>
-            </collapse-entry>
-          </collapse-content>
+          <collapse-content hidden>Pavel Lozinsky.</collapse-content>
         </collapse-entry>
       </p>
       <p id="contacts" hidden>
