@@ -18,7 +18,6 @@
     <script type="module" src="/elements/collapse-handle-element.js"></script>
     <script type="module" src="/elements/collapse-content-element.js"></script>
     <script type="module" src="/elements/effects-player-element.js"></script>
-    <script type="module" src="/elements/time-ago-element.js"></script>
 
     <link rel="stylesheet" href="/index.css" />
   </head>
@@ -61,12 +60,7 @@
         at <a href="mailto:pavel@lozinsky.dev" class="follow">pavel@lozinsky.dev</a>.
       </p>
       <p>
-        I
-        <collapse-entry once>
-          <collapse-handle class="follow">am</collapse-handle>
-          <collapse-content forwards="job" hidden></collapse-content>
-        </collapse-entry>
-        a
+        I am a
         <collapse-entry>
           <span><collapse-handle class="follow">Developer</collapse-handle>.</span>
           <collapse-content hidden>
@@ -109,12 +103,6 @@
             </collapse-entry>
           </collapse-content>
         </collapse-entry>
-      </p>
-      <p id="job" hidden>
-        I've been working at
-        <a href="https://sbercloud.ru/en" target="_blank" rel="noopener" class="follow">Cloud</a>
-        <span class="js-only">for the last <time-ago date="2022-01-11T12:00:00.000Z"></time-ago>.</span>
-        <span class="no-js-only">since 2022.</span>
       </p>
     </main>
   </body>
