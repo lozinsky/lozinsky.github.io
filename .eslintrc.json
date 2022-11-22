@@ -115,6 +115,7 @@
     "spaced-comment": "error",
     "unicode-bom": "error",
     "no-constant-binary-expression": "error",
+    "no-new-native-nonconstructor": "error",
 
     "prettier/prettier": "error",
 
