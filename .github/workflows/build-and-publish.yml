@@ -17,10 +17,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
 
+      - name: Store cache path
+        run: echo "cache_path=$(npm config get cache)" >> $GITHUB_ENV
+
       - name: Restore cache
         uses: actions/cache@v3
         with:
-          path: ~/.npm
+          path: ${{ env.cache_path }}
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
