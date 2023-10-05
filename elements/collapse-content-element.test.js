@@ -1,6 +1,6 @@
-import { expect } from '@esm-bundle/chai';
+import './collapse-content-element.js';
 
-import { CollapseContentElement } from './collapse-content-element.js';
+import { expect } from '@esm-bundle/chai';
 
 describe('collapse-content-element', () => {
   let root = document.body;
@@ -15,7 +15,7 @@ describe('collapse-content-element', () => {
   function setup(template) {
     root.innerHTML = template;
 
-    /** @type {CollapseContentElement} */
+    /** @type {import('./collapse-content-element').CollapseContentElement} */
     let collapseContent = root.querySelector('collapse-content');
     /** @type {HTMLElement} */
     let receiver = root.querySelector('#receiver');

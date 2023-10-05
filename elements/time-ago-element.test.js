@@ -1,7 +1,7 @@
+import './time-ago-element.js';
+
 import { expect } from '@esm-bundle/chai';
 import { restoreAll, spyOn } from 'tinyspy';
-
-import { TimeAgoElement } from './time-ago-element.js';
 
 describe('time-ago-element', () => {
   let root = document.body;
@@ -35,7 +35,7 @@ describe('time-ago-element', () => {
   function setup(template) {
     root.innerHTML = template;
 
-    /** @type {TimeAgoElement} */
+    /** @type {import('./time-ago-element').TimeAgoElement} */
     let timeAgo = root.querySelector('time-ago');
 
     return { timeAgo };

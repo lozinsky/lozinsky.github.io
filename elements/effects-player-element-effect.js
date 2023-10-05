@@ -35,9 +35,6 @@ export class EffectsPlayerElementEffect {
   /**
    * @abstract
    *
-   * @param {HTMLElement} element
-   * @param {EffectsPlayerElementTask} task
-   *
    * @returns {Promise<void>}
    */
   async draw() {

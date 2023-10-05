@@ -1,6 +1,5 @@
 import { EffectsPlayerElementEffect } from './effects-player-element-effect.js';
 import { range, takeAny } from './effects-player-element-random.js';
-import { EffectsPlayerElementTask } from './effects-player-element-task.js';
 
 const TAU = 2 * Math.PI;
 const PARTICLES = ['\u{2728}', '\u{2b50}', '\u{1f31f}'];
@@ -78,7 +77,7 @@ export class EffectsPlayerElementFireworkEffect extends EffectsPlayerElementEffe
    * @override
    *
    * @param {HTMLElement} firework
-   * @param {EffectsPlayerElementTask} task
+   * @param {import('./effects-player-element-task').EffectsPlayerElementTask} task
    *
    * @returns {Promise<void>}
    */

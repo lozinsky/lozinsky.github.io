@@ -1,155 +1,52 @@
 {
-  "plugins": ["prettier", "prefer-let", "compat", "simple-import-sort", "import", "github", "jsdoc"],
-  "env": {
-    "browser": true,
-    "es6": true,
-    "mocha": true
-  },
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": "2022"
-  },
-  "settings": {
-    "jsdoc": { "mode": "typescript" }
-  },
-  "ignorePatterns": ["dist"],
   "overrides": [
     {
-      "files": ["*.test.js"],
+      "files": ["*.js"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:compat/recommended",
+        "plugin:import/recommended",
+        "plugin:jsdoc/recommended-typescript-flavor-error",
+        "plugin:prettier/recommended"
+      ],
+      "plugins": ["prefer-let", "simple-import-sort"],
+      "env": {
+        "browser": true,
+        "es6": true
+      },
+      "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": "latest"
+      },
       "rules": {
-        "jsdoc/require-returns": "off",
-        "jsdoc/require-returns-type": "off",
-        "jsdoc/require-returns-check": "off"
+        "jsdoc/require-param-description": "off",
+        "jsdoc/require-returns-description": "off",
+        "jsdoc/sort-tags": [
+          "error",
+          {
+            "tagSequence": [
+              { "tags": ["override", "template", "abstract"] },
+              { "tags": ["param"] },
+              { "tags": ["returns"] }
+            ]
+          }
+        ],
+        "jsdoc/tag-lines": ["error", "any", { "startLines": 1 }],
+        "import/extensions": ["error", "always"],
+        "prefer-let/prefer-let": "error",
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error"
+      }
+    },
+    {
+      "files": ["*.test.js"],
+      "env": {
+        "mocha": true
+      },
+      "rules": {
+        "jsdoc/require-jsdoc": "off",
+        "jsdoc/require-returns": "off"
       }
     }
-  ],
-  "rules": {
-    "for-direction": "error",
-    "no-async-promise-executor": "error",
-    "no-await-in-loop": "error",
-    "no-compare-neg-zero": "error",
-    "no-cond-assign": ["error", "always"],
-    "no-console": "error",
-    "no-constant-condition": "error",
-    "no-debugger": "error",
-    "no-empty": "error",
-    "no-ex-assign": "error",
-    "no-extra-boolean-cast": "error",
-    "constructor-super": "error",
-    "max-classes-per-file": "error",
-    "no-unused-private-class-members": "error",
-    "no-unsafe-optional-chaining": "error",
-    "no-useless-backreference": "error",
-    "no-import-assign": "error",
-    "no-this-before-super": "error",
-    "no-unreachable": "error",
-    "no-dupe-args": "error",
-    "no-dupe-keys": "error",
-    "no-inner-declarations": "error",
-    "no-undef": "error",
-    "no-unused-vars": "error",
-    "valid-typeof": "error",
-    "no-class-assign": "error",
-    "no-prototype-builtins": "error",
-    "no-template-curly-in-string": "error",
-    "no-unsafe-finally": "error",
-    "no-unsafe-negation": "error",
-    "use-isnan": "error",
-    "array-callback-return": "error",
-    "curly": "error",
-    "dot-notation": "error",
-    "eqeqeq": ["error", "always"],
-    "guard-for-in": "error",
-    "no-caller": "error",
-    "no-case-declarations": "error",
-    "no-else-return": "error",
-    "no-empty-pattern": "error",
-    "no-eval": "error",
-    "no-extend-native": "error",
-    "no-implicit-coercion": "error",
-    "no-implied-eval": "error",
-    "no-labels": ["error"],
-    "no-multi-str": "error",
-    "no-new-func": "error",
-    "no-new-wrappers": "error",
-    "no-octal-escape": "error",
-    "no-octal": "error",
-    "no-param-reassign": "error",
-    "no-return-assign": "error",
-    "no-return-await": "error",
-    "no-self-compare": "error",
-    "no-sequences": "error",
-    "no-throw-literal": "error",
-    "no-unused-expressions": "error",
-    "no-useless-call": "error",
-    "no-useless-catch": "error",
-    "no-useless-concat": "error",
-    "no-useless-escape": "error",
-    "no-useless-return": "error",
-    "no-void": "error",
-    "no-with": "error",
-    "prefer-promise-reject-errors": ["error", { "allowEmptyReject": true }],
-    "radix": "error",
-    "yoda": "error",
-    "no-useless-computed-key": "error",
-    "no-useless-rename": "error",
-    "no-var": "error",
-    "object-shorthand": "error",
-    "prefer-arrow-callback": "error",
-    "prefer-numeric-literals": "error",
-    "prefer-rest-params": "error",
-    "prefer-spread": "error",
-    "prefer-template": "error",
-    "symbol-description": "error",
-    "no-path-concat": "error",
-    "camelcase": "error",
-    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
-    "multiline-comment-style": "error",
-    "new-cap": ["error", { "capIsNew": false }],
-    "no-continue": "error",
-    "no-lonely-if": "error",
-    "no-nested-ternary": "error",
-    "no-unneeded-ternary": ["error", { "defaultAssignment": false }],
-    "operator-assignment": "error",
-    "prefer-object-spread": "error",
-    "spaced-comment": "error",
-    "unicode-bom": "error",
-    "no-constant-binary-expression": "error",
-    "no-new-native-nonconstructor": "error",
-
-    "prettier/prettier": "error",
-
-    "prefer-let/prefer-let": "error",
-
-    "compat/compat": "error",
-
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-
-    "import/no-default-export": "error",
-    "import/export": "error",
-    "import/first": "error",
-    "import/no-duplicates": "error",
-    "import/no-named-default": "error",
-    "import/named": "error",
-    "import/newline-after-import": "error",
-    "import/no-cycle": "error",
-    "import/no-mutable-exports": "error",
-    "import/extensions": ["error", "always", { "ignorePackages": true }],
-    "import/no-unresolved": "error",
-    "import/no-nodejs-modules": "error",
-
-    "github/array-foreach": "error",
-    "github/async-currenttarget": "error",
-    "github/async-preventdefault": "error",
-    "github/get-attribute": "error",
-
-    "jsdoc/require-param": ["error", { "checkSetters": true }],
-    "jsdoc/require-param-name": "error",
-    "jsdoc/require-param-type": "error",
-    "jsdoc/require-returns": ["error", { "forceRequireReturn": true, "forceReturnsWithAsync": true }],
-    "jsdoc/require-returns-type": "error",
-    "jsdoc/require-returns-check": "error",
-    "jsdoc/no-undefined-types": "error"
-  }
+  ]
 }

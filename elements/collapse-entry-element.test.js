@@ -1,9 +1,9 @@
+import './collapse-content-element.js';
+import './collapse-entry-element.js';
+import './collapse-handle-element.js';
+
 import { expect } from '@esm-bundle/chai';
 import { restoreAll, spyOn } from 'tinyspy';
-
-import { CollapseContentElement } from './collapse-content-element.js';
-import { CollapseEntryElement } from './collapse-entry-element.js';
-import { CollapseHandleElement } from './collapse-handle-element.js';
 
 describe('collapse-entry-element', () => {
   let root = document.body;
@@ -15,10 +15,10 @@ describe('collapse-entry-element', () => {
   });
 
   /**
-   * @param {`collapse-entry-${'opened' | 'closed' | 'enabled' | 'disabled'}`} eventType
+   * @param {string} eventType
    */
   async function when(eventType) {
-    /** @type {CollapseEntryElement} */
+    /** @type {import('./collapse-entry-element').CollapseEntryElement} */
     let collapseEntry = root.querySelector('collapse-entry');
 
     await new Promise((resolve) => collapseEntry.addEventListener(eventType, resolve, { once: true }));
@@ -30,11 +30,11 @@ describe('collapse-entry-element', () => {
   function setup(template) {
     root.innerHTML = template;
 
-    /** @type {CollapseEntryElement} */
+    /** @type {import('./collapse-entry-element').CollapseEntryElement} */
     let collapseEntry = root.querySelector('collapse-entry');
-    /** @type {CollapseHandleElement} */
+    /** @type {import('./collapse-handle-element').CollapseHandleElement} */
     let collapseHandle = root.querySelector('collapse-handle');
-    /** @type {CollapseContentElement} */
+    /** @type {import('./collapse-content-element').CollapseContentElement} */
     let collapseContent = root.querySelector('collapse-content');
 
     return { collapseEntry, collapseHandle, collapseContent };

@@ -1,6 +1,5 @@
 import { EffectsPlayerElementEffect } from './effects-player-element-effect.js';
 import { range, takeAny } from './effects-player-element-random.js';
-import { EffectsPlayerElementTask } from './effects-player-element-task.js';
 
 const DROPLET = '\u{1f4a7}';
 const SLOPES = [-200, 200];
@@ -60,7 +59,7 @@ export class EffectsPlayerElementRainEffect extends EffectsPlayerElementEffect {
    * @override
    *
    * @param {HTMLElement} droplet
-   * @param {EffectsPlayerElementTask} task
+   * @param {import('./effects-player-element-task').EffectsPlayerElementTask} task
    *
    * @returns {Promise<void>}
    */

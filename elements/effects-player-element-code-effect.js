@@ -1,6 +1,5 @@
 import { EffectsPlayerElementEffect } from './effects-player-element-effect.js';
 import { range } from './effects-player-element-random.js';
-import { EffectsPlayerElementTask } from './effects-player-element-task.js';
 
 const CODE = document.documentElement.innerHTML;
 const MIN_FONT_SIZE = 1;
@@ -52,7 +51,7 @@ export class EffectsPlayerElementCodeEffect extends EffectsPlayerElementEffect {
    * @override
    *
    * @param {HTMLElement} code
-   * @param {EffectsPlayerElementTask} task
+   * @param {import('./effects-player-element-task').EffectsPlayerElementTask} task
    *
    * @returns {Promise<void>}
    */

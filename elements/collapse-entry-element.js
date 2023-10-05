@@ -1,6 +1,3 @@
-import { CollapseContentElement } from './collapse-content-element.js';
-import { CollapseHandleElement } from './collapse-handle-element.js';
-
 export class CollapseEntryElement extends HTMLElement {
   /**
    * @type {string[]}
@@ -102,9 +99,9 @@ export class CollapseEntryElement extends HTMLElement {
   async #handleOpenedChange(opened) {
     await Promise.all([customElements.whenDefined('collapse-handle'), customElements.whenDefined('collapse-content')]);
 
-    /** @type {CollapseContentElement} */
+    /** @type {import('./collapse-content-element').CollapseContentElement} */
     let collapseContent = this.querySelector('collapse-content');
-    /** @type {CollapseHandleElement} */
+    /** @type {import('./collapse-handle-element').CollapseHandleElement} */
     let collapseHandle = this.querySelector('collapse-handle');
     let eventType = opened ? 'collapse-entry-opened' : 'collapse-entry-closed';
 
@@ -133,7 +130,7 @@ export class CollapseEntryElement extends HTMLElement {
   async #disableHandle(disabled) {
     await customElements.whenDefined('collapse-handle');
 
-    /** @type {CollapseHandleElement} */
+    /** @type {import('./collapse-handle-element').CollapseHandleElement} */
     let collapseHandle = this.querySelector('collapse-handle');
     let eventType = disabled ? 'collapse-entry-disabled' : 'collapse-entry-enabled';
 

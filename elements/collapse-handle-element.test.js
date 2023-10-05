@@ -1,7 +1,7 @@
+import './collapse-handle-element.js';
+
 import { expect } from '@esm-bundle/chai';
 import { restoreAll, spy, spyOn } from 'tinyspy';
-
-import { CollapseHandleElement } from './collapse-handle-element.js';
 
 describe('collapse-handle-element', () => {
   let root = document.body;
@@ -19,7 +19,7 @@ describe('collapse-handle-element', () => {
   function setup(template) {
     root.innerHTML = template;
 
-    /** @type {CollapseHandleElement} */
+    /** @type {import('./collapse-handle-element').CollapseHandleElement} */
     let collapseHandle = root.querySelector('collapse-handle');
 
     return { collapseHandle };
