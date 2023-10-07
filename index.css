@@ -2,32 +2,61 @@
   --font-fluid-base: 16px;
   --font-fluid-ratio: 1.1;
 
-  --background-color: #f0f0f0;
-  --color: #2b2b2b;
+  --color-blue-300: oklch(0.849609 0.078125 240);
+  --color-blue-700: oklch(0.517578 0.115625 240);
+  --color-red-300: oklch(0.861328 0.078125 20);
+  --color-red-700: oklch(0.535156 0.115625 20);
+  --color-sand-100: oklch(0.964844 0.012 75);
+  --color-sand-900: oklch(0.302734 0.012 75);
 }
 
-.follow {
-  --follow-color-saturation: 80%;
-  --follow-color-lightness: 40%;
-  --follow-decoration-saturation: 64%;
-  --follow-decoration-lightness: 75%;
-  --follow-focus-decoration-saturation: 70%;
-  --follow-focus-decoration-lightness: 58%;
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: var(--color-sand-100);
+    --text-color: var(--color-sand-900);
+  }
+
+  .follow {
+    --follow-decoration-color: var(--color-red-300);
+  }
+
+  .follow:focus-visible {
+    --follow-decoration-color: var(--color-red-700);
+  }
+
+  a.follow {
+    --follow-decoration-color: var(--color-blue-300);
+
+    color: var(--color-blue-700);
+  }
+
+  a.follow:focus-visible {
+    --follow-decoration-color: var(--color-blue-700);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background-color: #2b2b2b;
-    --color: #f0f0f0;
+    --background-color: var(--color-sand-900);
+    --text-color: var(--color-sand-100);
   }
 
   .follow {
-    --follow-color-saturation: 90%;
-    --follow-color-lightness: 70%;
-    --follow-decoration-saturation: 30%;
-    --follow-decoration-lightness: 30%;
-    --follow-focus-decoration-saturation: 70%;
-    --follow-focus-decoration-lightness: 70%;
+    --follow-decoration-color: var(--color-red-700);
+  }
+
+  .follow:focus-visible {
+    --follow-decoration-color: var(--color-red-300);
+  }
+
+  a.follow {
+    --follow-decoration-color: var(--color-blue-700);
+
+    color: var(--color-blue-300);
+  }
+
+  a.follow:focus-visible {
+    --follow-decoration-color: var(--color-blue-300);
   }
 }
 
@@ -44,7 +73,7 @@ html {
 
 body {
   background-color: var(--background-color);
-  color: var(--color);
+  color: var(--text-color);
   margin: 0.5rem;
 }
 
@@ -58,8 +87,7 @@ p {
 }
 
 a {
-  --follow-hue: 222;
-
+  color: var(--text-color);
   text-decoration: none;
 }
 
@@ -67,16 +95,12 @@ a {
   --follow-decoration-offset: 0.25em;
   --follow-decoration-height: 0.1em;
 
-  background-image: linear-gradient(
-    90deg,
-    hsl(var(--follow-hue), var(--follow-decoration-saturation), var(--follow-decoration-lightness)) 100%,
-    transparent 0%
-  );
+  background-image: linear-gradient(90deg, var(--follow-decoration-color) 100%, transparent 0%);
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: 100% var(--follow-decoration-height);
   border-radius: 0.3em;
-  color: hsl(var(--follow-hue), var(--follow-color-saturation), var(--follow-color-lightness));
+  cursor: pointer;
   margin: 0 calc(var(--follow-decoration-offset) * -1);
   outline: none;
   padding: 0 var(--follow-decoration-offset);
@@ -84,29 +108,25 @@ a {
   transition-property: background-size, color;
 }
 
-.follow:hover {
+.follow:hover,
+.follow:focus-visible {
   --follow-decoration-height: 100%;
 }
 
 .follow:focus-visible {
-  --follow-decoration-height: 100%;
-  --follow-decoration-saturation: var(--follow-focus-decoration-saturation);
-  --follow-decoration-lightness: var(--follow-focus-decoration-lightness);
-
   color: var(--background-color);
+}
+
+.js collapse-handle[disabled].follow,
+.js effects-player:not([stopped]).follow,
+.no-js collapse-handle.follow {
+  background-image: unset;
+  cursor: unset;
 }
 
 .js collapse-entry[opened]:not([once]) > *:not(collapse-content),
 .no-js collapse-entry:not([once]) > *:not(collapse-content) {
   display: none;
-}
-
-.js collapse-handle:not([disabled]),
-.js effects-player[stopped] {
-  --follow-hue: 350;
-
-  color: inherit;
-  cursor: pointer;
 }
 
 .no-js collapse-content,
