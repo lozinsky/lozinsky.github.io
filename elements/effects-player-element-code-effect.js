@@ -1,7 +1,6 @@
 import { EffectsPlayerElementEffect } from './effects-player-element-effect.js';
 import { range } from './effects-player-element-random.js';
 
-const CODE = document.documentElement.innerHTML;
 const MIN_FONT_SIZE = 1;
 const MAX_FONT_SIZE = 3;
 const MIN_OPACITY = 10;
@@ -12,6 +11,17 @@ const MIN_TRANSLATE_X = -10;
 const MAX_TRANSLATE_X = 10;
 
 class EffectsPlayerElementCodeEffect extends EffectsPlayerElementEffect {
+  /**
+   * @type {string}
+   */
+  #code;
+
+  constructor() {
+    super();
+
+    this.#code = document.documentElement.innerHTML;
+  }
+
   /**
    * @override
    *
@@ -33,7 +43,7 @@ class EffectsPlayerElementCodeEffect extends EffectsPlayerElementEffect {
     let transitionDuration = range(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
     let translateX = range(MIN_TRANSLATE_X, MAX_TRANSLATE_X);
 
-    code.textContent = CODE;
+    code.textContent = this.#code;
     code.style.fontSize = `${fontSize}rem`;
     code.style.left = '0';
     code.style.opacity = `${opacity}%`;
