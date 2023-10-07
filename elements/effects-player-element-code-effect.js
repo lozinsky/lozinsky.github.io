@@ -11,7 +11,7 @@ const MAX_TRANSITION_DURATION = 50000;
 const MIN_TRANSLATE_X = -10;
 const MAX_TRANSLATE_X = 10;
 
-export class EffectsPlayerElementCodeEffect extends EffectsPlayerElementEffect {
+class EffectsPlayerElementCodeEffect extends EffectsPlayerElementEffect {
   /**
    * @override
    *
@@ -60,4 +60,11 @@ export class EffectsPlayerElementCodeEffect extends EffectsPlayerElementEffect {
 
     await task.transitionEnd(code);
   }
+}
+
+/**
+ * @returns {EffectsPlayerElementEffect}
+ */
+export function create() {
+  return new EffectsPlayerElementCodeEffect();
 }

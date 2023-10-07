@@ -18,7 +18,7 @@ const MAX_HUE_ROTATE_ANGLE = 360;
 const MIN_PARTICLE_BIAS = -50;
 const MAX_PARTICLE_BIAS = 50;
 
-export class EffectsPlayerElementFireworkEffect extends EffectsPlayerElementEffect {
+class EffectsPlayerElementFireworkEffect extends EffectsPlayerElementEffect {
   /**
    * @override
    *
@@ -129,4 +129,11 @@ export class EffectsPlayerElementFireworkEffect extends EffectsPlayerElementEffe
       }),
     );
   }
+}
+
+/**
+ * @returns {EffectsPlayerElementEffect}
+ */
+export function create() {
+  return new EffectsPlayerElementFireworkEffect();
 }

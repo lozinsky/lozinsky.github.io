@@ -119,9 +119,9 @@ export class EffectsPlayerElement extends HTMLElement {
   }
 
   /**
-   * @returns {void}
+   * @returns {Promise<void>}
    */
-  #play() {
+  async #play() {
     let root = document.body;
     let playing = new AbortController();
 
@@ -172,7 +172,7 @@ export class EffectsPlayerElement extends HTMLElement {
       this.#playing = null;
     };
 
-    this.#switcher.switch(root, playing.signal);
+    await this.#switcher.switch(root, playing.signal);
 
     document.addEventListener('click', handleDocumentClick);
     document.addEventListener('keydown', handleDocumentKeydown);

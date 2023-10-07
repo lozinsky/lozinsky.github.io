@@ -1,37 +1,30 @@
-import { EffectsPlayerElementCodeEffect } from './effects-player-element-code-effect.js';
-import { EffectsPlayerElementFireworkEffect } from './effects-player-element-firework-effect.js';
-import { EffectsPlayerElementRainEffect } from './effects-player-element-rain-effect.js';
-
 export class EffectsPlayerElementSwitcher {
-  /**
-   * @type {Array<import('./effects-player-element-effect').EffectsPlayerElementEffect>}
-   */
-  #effects;
   /**
    * @type {number}
    */
   #current;
+  /**
+   * @type {string[]}
+   */
+  #names;
 
   constructor() {
     this.#current = 0;
-    this.#effects = [
-      new EffectsPlayerElementCodeEffect(),
-      new EffectsPlayerElementRainEffect(),
-      new EffectsPlayerElementFireworkEffect(),
-    ];
+    this.#names = ['code', 'firework', 'rain'];
   }
 
   /**
    * @param {HTMLElement} root
    * @param {AbortSignal} abortSignal
    *
-   * @returns {void}
+   * @returns {Promise<void>}
    */
-  switch(root, abortSignal) {
-    let effect = this.#effects[this.#current];
+  async switch(root, abortSignal) {
+    let name = this.#names[this.#current];
+    let effect = await import(`./effects-player-element-${name}-effect.js`);
 
-    effect.run(root, abortSignal);
+    effect.create().run(root, abortSignal);
 
-    this.#current = (this.#current + 1) % this.#effects.length;
+    this.#current = (this.#current + 1) % this.#names.length;
   }
 }

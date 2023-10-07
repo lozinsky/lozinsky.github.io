@@ -8,7 +8,7 @@ const MAX_TRANSITION_DURATION = 1000;
 const MIN_START_DELAY = 1;
 const MAX_START_DELAY = 5000;
 
-export class EffectsPlayerElementRainEffect extends EffectsPlayerElementEffect {
+class EffectsPlayerElementRainEffect extends EffectsPlayerElementEffect {
   /**
    * @type {number}
    */
@@ -85,4 +85,11 @@ export class EffectsPlayerElementRainEffect extends EffectsPlayerElementEffect {
 
     await task.transitionEnd(droplet);
   }
+}
+
+/**
+ * @returns {EffectsPlayerElementEffect}
+ */
+export function create() {
+  return new EffectsPlayerElementRainEffect();
 }
