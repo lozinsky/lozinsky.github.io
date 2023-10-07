@@ -54,7 +54,7 @@ export class EffectsPlayerElementEffect {
     root.appendChild(element);
 
     try {
-      await task.setTimeout();
+      await task.setTimeout(100);
       await this.draw(element, task);
     } catch (error) {
       if (error instanceof EffectsPlayerElementTaskError) {
