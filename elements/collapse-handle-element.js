@@ -1,4 +1,8 @@
 export class CollapseHandleElement extends HTMLElement {
+  static {
+    customElements.define('collapse-handle', this);
+  }
+
   /**
    * @type {string[]}
    */
@@ -95,5 +99,3 @@ export class CollapseHandleElement extends HTMLElement {
     }
   }
 }
-
-customElements.define('collapse-handle', CollapseHandleElement);

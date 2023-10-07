@@ -8,6 +8,10 @@ const MONTHS_PER_YEAR = 12;
 const WEEKS_PER_MONTH = DAYS_PER_YEAR / DAYS_PER_WEEK / MONTHS_PER_YEAR;
 
 export class TimeAgoElement extends HTMLElement {
+  static {
+    customElements.define('time-ago', this);
+  }
+
   /**
    * @type {string[]}
    */
@@ -108,5 +112,3 @@ export class TimeAgoElement extends HTMLElement {
     return element.lang;
   }
 }
-
-customElements.define('time-ago', TimeAgoElement);

@@ -1,4 +1,8 @@
 export class CollapseEntryElement extends HTMLElement {
+  static {
+    customElements.define('collapse-entry', this);
+  }
+
   /**
    * @type {string[]}
    */
@@ -139,5 +143,3 @@ export class CollapseEntryElement extends HTMLElement {
     this.dispatchEvent(new CustomEvent(eventType, { bubbles: true }));
   }
 }
-
-customElements.define('collapse-entry', CollapseEntryElement);

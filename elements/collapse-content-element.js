@@ -1,4 +1,8 @@
 export class CollapseContentElement extends HTMLElement {
+  static {
+    customElements.define('collapse-content', this);
+  }
+
   /**
    * @type {string[]}
    */
@@ -99,5 +103,3 @@ export class CollapseContentElement extends HTMLElement {
     receiver.hidden = hidden;
   }
 }
-
-customElements.define('collapse-content', CollapseContentElement);

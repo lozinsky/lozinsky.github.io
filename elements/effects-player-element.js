@@ -1,6 +1,10 @@
 import { EffectsPlayerElementSwitcher } from './effects-player-element-switcher.js';
 
 export class EffectsPlayerElement extends HTMLElement {
+  static {
+    customElements.define('effects-player', this);
+  }
+
   /**
    * @type {string[]}
    */
@@ -185,5 +189,3 @@ export class EffectsPlayerElement extends HTMLElement {
     this.#playing?.abort();
   }
 }
-
-customElements.define('effects-player', EffectsPlayerElement);
