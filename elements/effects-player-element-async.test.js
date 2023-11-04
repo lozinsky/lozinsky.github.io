@@ -1,7 +1,7 @@
 import { assert, expect } from '@esm-bundle/chai';
 import { restoreAll, spy, spyOn } from 'tinyspy';
 
-import { loop, parallel, promisify, setTimeout, when } from './effects-player-element-async.js';
+import { loop, nextFrame, parallel, promisify, setTimeout, when } from './effects-player-element-async.js';
 
 describe('effects-player-element-async', () => {
   afterEach(() => {
@@ -312,6 +312,82 @@ describe('effects-player-element-async', () => {
       await promise.catch(() => {});
 
       expect(setTimeoutSpy.callCount).to.equal(0);
+    });
+  });
+
+  describe('nextFrame', () => {
+    it('resolves on next frame when signal is not provided', async () => {
+      let promise = nextFrame();
+
+      expect(await promise).to.equal(undefined);
+    });
+
+    it('resolves on next frame when signal is provided', async () => {
+      let abortController = new AbortControllerBuilder().build();
+      let promise = nextFrame({ signal: abortController.signal });
+
+      expect(await promise).to.equal(undefined);
+    });
+
+    it('rejects when signal is aborted', async () => {
+      let abortController = new AbortControllerBuilder().build();
+      let promise = nextFrame({ signal: abortController.signal });
+
+      abortController.abort();
+
+      try {
+        await promise;
+        assert.fail();
+      } catch (error) {
+        expect(error).to.instanceOf(DOMException);
+        expect(error.name).to.equal('AbortError');
+      }
+    });
+
+    it('cancels animation frame when signal is aborted', async () => {
+      let requestAnimationFrameSpy = spyOn(window, 'requestAnimationFrame');
+      let cancelAnimationFrameSpy = spyOn(window, 'cancelAnimationFrame');
+      let abortController = new AbortControllerBuilder().build();
+      let promise = nextFrame({ signal: abortController.signal });
+
+      abortController.abort();
+      await promise.catch(() => {});
+
+      expect(cancelAnimationFrameSpy.callCount).to.equal(1);
+      expect(cancelAnimationFrameSpy.calls).to.deep.equal([requestAnimationFrameSpy.returns]);
+    });
+
+    it('rejects when signal is already aborted', async () => {
+      let abortController = new AbortControllerBuilder().abort().build();
+      let promise = nextFrame({ signal: abortController.signal });
+
+      try {
+        await promise;
+        assert.fail();
+      } catch (error) {
+        expect(error).to.instanceOf(DOMException);
+        expect(error.name).to.equal('AbortError');
+      }
+    });
+
+    it('does not cancel animation frame when signal is already aborted', async () => {
+      let cancelAnimationFrameSpy = spyOn(window, 'cancelAnimationFrame');
+      let abortController = new AbortControllerBuilder().abort().build();
+      let promise = nextFrame({ signal: abortController.signal });
+
+      await promise.catch(() => {});
+
+      expect(cancelAnimationFrameSpy.callCount).to.equal(0);
+    });
+
+    it('does not request animation frame when signal is already aborted', async () => {
+      let requestAnimationFrameSpy = spyOn(window, 'requestAnimationFrame');
+      let abortController = new AbortControllerBuilder().abort().build();
+      let promise = nextFrame({ signal: abortController.signal });
+
+      await promise.catch(() => {});
+
+      expect(requestAnimationFrameSpy.callCount).to.equal(0);
     });
   });
 

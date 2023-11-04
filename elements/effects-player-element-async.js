@@ -110,6 +110,25 @@ export async function setTimeout(duration, { signal } = {}) {
 }
 
 /**
+ *
+ * @param {{ signal?: AbortSignal }=} options
+ *
+ * @returns {Promise<void>}
+ */
+export async function nextFrame({ signal } = {}) {
+  await promisify(
+    (resolve) => {
+      let handle = window.requestAnimationFrame(resolve);
+
+      return () => {
+        window.cancelAnimationFrame(handle);
+      };
+    },
+    { signal },
+  );
+}
+
+/**
  * @template {Event} T
  *
  * @param {EventTarget} target

@@ -10,7 +10,7 @@ export class EffectsPlayerElementSwitcher {
 
   constructor() {
     this.#current = 0;
-    this.#names = ['code', 'firework', 'rain'];
+    this.#names = ['rainbow-highlight', 'code', 'firework', 'rain'];
   }
 
   /**

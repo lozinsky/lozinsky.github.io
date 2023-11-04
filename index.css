@@ -3,11 +3,25 @@
   --font-fluid-ratio: 1.1;
 
   --color-blue-300: oklch(0.849609 0.078125 240);
+  --color-blue-500: oklch(0.71875 0.151562 240);
+  --color-blue-600: oklch(0.605469 0.135937 240);
   --color-blue-700: oklch(0.517578 0.115625 240);
+  --color-green-500: oklch(0.714844 0.151562 123.333);
+  --color-green-600: oklch(0.603516 0.135937 123.333);
+  --color-indigo-500: oklch(0.726563 0.151562 260);
+  --color-indigo-600: oklch(0.613281 0.135937 260);
+  --color-orange-500: oklch(0.738281 0.151562 43.3333);
+  --color-orange-600: oklch(0.623047 0.135937 43.3333);
   --color-red-300: oklch(0.861328 0.078125 20);
+  --color-red-500: oklch(0.742188 0.151562 20);
+  --color-red-600: oklch(0.626953 0.135937 20);
   --color-red-700: oklch(0.535156 0.115625 20);
   --color-sand-100: oklch(0.964844 0.012 75);
   --color-sand-900: oklch(0.302734 0.012 75);
+  --color-violet-500: oklch(0.734375 0.151562 280);
+  --color-violet-600: oklch(0.619141 0.135937 280);
+  --color-yellow-500: oklch(0.726563 0.151562 90);
+  --color-yellow-600: oklch(0.611328 0.135937 90);
 }
 
 @media (prefers-color-scheme: light) {
@@ -33,6 +47,34 @@
   a.follow:focus-visible {
     --follow-decoration-color: var(--color-blue-700);
   }
+
+  ::highlight(effects-player-rainbow-1) {
+    color: var(--color-red-600);
+  }
+
+  ::highlight(effects-player-rainbow-2) {
+    color: var(--color-orange-600);
+  }
+
+  ::highlight(effects-player-rainbow-3) {
+    color: var(--color-yellow-600);
+  }
+
+  ::highlight(effects-player-rainbow-4) {
+    color: var(--color-green-600);
+  }
+
+  ::highlight(effects-player-rainbow-5) {
+    color: var(--color-blue-600);
+  }
+
+  ::highlight(effects-player-rainbow-6) {
+    color: var(--color-indigo-600);
+  }
+
+  ::highlight(effects-player-rainbow-7) {
+    color: var(--color-violet-600);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -57,6 +99,34 @@
 
   a.follow:focus-visible {
     --follow-decoration-color: var(--color-blue-300);
+  }
+
+  ::highlight(effects-player-rainbow-1) {
+    color: var(--color-red-500);
+  }
+
+  ::highlight(effects-player-rainbow-2) {
+    color: var(--color-orange-500);
+  }
+
+  ::highlight(effects-player-rainbow-3) {
+    color: var(--color-yellow-500);
+  }
+
+  ::highlight(effects-player-rainbow-4) {
+    color: var(--color-green-500);
+  }
+
+  ::highlight(effects-player-rainbow-5) {
+    color: var(--color-blue-500);
+  }
+
+  ::highlight(effects-player-rainbow-6) {
+    color: var(--color-indigo-500);
+  }
+
+  ::highlight(effects-player-rainbow-7) {
+    color: var(--color-violet-500);
   }
 }
 
