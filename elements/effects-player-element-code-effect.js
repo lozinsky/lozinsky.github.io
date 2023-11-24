@@ -1,5 +1,5 @@
-import { EffectsPlayerElementEffect } from './effects-player-element-effect.js';
-import { range } from './effects-player-element-random.js';
+import { loop, parallel, setTimeout, when } from './effects-player-element-async.js';
+import { getInteger } from './effects-player-element-random.js';
 
 const MIN_FONT_SIZE = 1;
 const MAX_FONT_SIZE = 3;
@@ -10,71 +10,53 @@ const MAX_TRANSITION_DURATION = 50000;
 const MIN_TRANSLATE_X = -10;
 const MAX_TRANSLATE_X = 10;
 
-class EffectsPlayerElementCodeEffect extends EffectsPlayerElementEffect {
-  /**
-   * @type {string}
-   */
-  #code;
-
-  constructor() {
-    super();
-
-    this.#code = document.documentElement.innerHTML;
-  }
-
-  /**
-   * @override
-   *
-   * @type {number}
-   */
-  get times() {
-    return 3;
-  }
-
-  /**
-   * @override
-   *
-   * @returns {HTMLElement}
-   */
-  init() {
-    let code = document.createElement('pre');
-    let fontSize = range(MIN_FONT_SIZE, MAX_FONT_SIZE);
-    let opacity = range(MIN_OPACITY, MAX_OPACITY);
-    let transitionDuration = range(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
-    let translateX = range(MIN_TRANSLATE_X, MAX_TRANSLATE_X);
-
-    code.textContent = this.#code;
-    code.style.fontSize = `${fontSize}rem`;
-    code.style.left = '0';
-    code.style.opacity = `${opacity}%`;
-    code.style.pointerEvents = 'none';
-    code.style.position = 'fixed';
-    code.style.top = '0';
-    code.style.transform = `translate(${translateX}%, var(--code-y))`;
-    code.style.transition = `transform ${transitionDuration}ms linear`;
-    code.style.setProperty('--code-y', '-100%');
-
-    return code;
-  }
-
-  /**
-   * @override
-   *
-   * @param {HTMLElement} code
-   * @param {import('./effects-player-element-task').EffectsPlayerElementTask} task
-   *
-   * @returns {Promise<void>}
-   */
-  async draw(code, task) {
-    code.style.setProperty('--code-y', `${window.innerHeight}px`);
-
-    await task.transitionEnd(code);
-  }
+/**
+ * @returns {boolean}
+ */
+export function isSupported() {
+  return true;
 }
 
 /**
- * @returns {EffectsPlayerElementEffect}
+ * @param {HTMLElement} root
+ * @param {AbortSignal} signal
+ *
+ * @returns {Promise<void>}
  */
-export function create() {
-  return new EffectsPlayerElementCodeEffect();
+export async function run(root, signal) {
+  let textContent = document.documentElement.innerHTML;
+
+  await parallel(3, async () => {
+    await loop(async () => {
+      let code = document.createElement('pre');
+
+      try {
+        let fontSize = getInteger(MIN_FONT_SIZE, MAX_FONT_SIZE);
+        let opacity = getInteger(MIN_OPACITY, MAX_OPACITY);
+        let transitionDuration = getInteger(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
+        let translateX = getInteger(MIN_TRANSLATE_X, MAX_TRANSLATE_X);
+
+        code.textContent = textContent;
+        code.style.fontSize = `${fontSize}rem`;
+        code.style.left = '0';
+        code.style.opacity = `${opacity}%`;
+        code.style.pointerEvents = 'none';
+        code.style.position = 'fixed';
+        code.style.top = '0';
+        code.style.transform = `translate(${translateX}%, var(--code-y))`;
+        code.style.transition = `transform ${transitionDuration}ms linear`;
+        code.style.setProperty('--code-y', '-100%');
+
+        root.appendChild(code);
+
+        await setTimeout(100, { signal });
+
+        code.style.setProperty('--code-y', `${window.innerHeight}px`);
+
+        await when(code, 'transitionend', { signal });
+      } finally {
+        code.remove();
+      }
+    });
+  });
 }

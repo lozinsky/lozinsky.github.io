@@ -1,3 +1,4 @@
+import { when } from './effects-player-element-async.js';
 import { EffectsPlayerElementSwitcher } from './effects-player-element-switcher.js';
 
 export class EffectsPlayerElement extends HTMLElement {
@@ -122,70 +123,42 @@ export class EffectsPlayerElement extends HTMLElement {
    * @returns {Promise<void>}
    */
   async #play() {
-    let root = document.body;
-    let playing = new AbortController();
+    try {
+      let root = document.body;
+      let playing = new AbortController();
 
-    /**
-     * @returns {void}
-     */
-    let handleDocumentClick = () => {
-      this.stopped = true;
-    };
+      this.#playing = playing;
+      this.#switcher.switch(root, playing.signal);
 
-    /**
-     * @param {KeyboardEvent} event
-     *
-     * @returns {void}
-     */
-    let handleDocumentKeydown = (event) => {
-      if (event.key === 'Escape') {
-        this.stopped = true;
+      await Promise.race([
+        when(document, 'click', {
+          signal: playing.signal,
+        }),
+        when(document, 'keydown', {
+          signal: playing.signal,
+          filter: (event) => event.key === 'Escape',
+        }),
+        when(document, 'visibilitychange', {
+          signal: playing.signal,
+          filter: () => document.visibilityState === 'hidden',
+        }),
+        when(window, 'resize', {
+          signal: playing.signal,
+        }),
+      ]);
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return;
       }
-    };
 
-    /**
-     * @returns {void}
-     */
-    let handleDocumentVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        this.stopped = true;
-      }
-    };
-
-    /**
-     * @returns {void}
-     */
-    let handleWindowResize = () => {
+      throw error;
+    } finally {
       this.stopped = true;
-    };
-
-    /**
-     * @returns {void}
-     */
-    let handleAbort = () => {
-      document.removeEventListener('click', handleDocumentClick);
-      document.removeEventListener('keydown', handleDocumentKeydown);
-      document.removeEventListener('visibilitychange', handleDocumentVisibilityChange);
-
-      window.removeEventListener('resize', handleWindowResize);
-
-      this.#playing = null;
-    };
-
-    await this.#switcher.switch(root, playing.signal);
-
-    document.addEventListener('click', handleDocumentClick);
-    document.addEventListener('keydown', handleDocumentKeydown);
-    document.addEventListener('visibilitychange', handleDocumentVisibilityChange);
-
-    window.addEventListener('resize', handleWindowResize);
-
-    playing.signal.addEventListener('abort', handleAbort, { once: true });
-
-    this.#playing = playing;
+    }
   }
 
   #stop() {
     this.#playing?.abort();
+    this.#playing = null;
   }
 }

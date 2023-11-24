@@ -15,16 +15,16 @@ export class EffectsPlayerElementSwitcher {
 
   /**
    * @param {HTMLElement} root
-   * @param {AbortSignal} abortSignal
+   * @param {AbortSignal} signal
    *
    * @returns {Promise<void>}
    */
-  async switch(root, abortSignal) {
+  async switch(root, signal) {
     let name = this.#names[this.#current];
     let effect = await import(`./effects-player-element-${name}-effect.js`);
 
-    effect.create().run(root, abortSignal);
-
     this.#current = (this.#current + 1) % this.#names.length;
+
+    return effect.isSupported() ? effect.run(root, signal) : this.switch(root, signal);
   }
 }

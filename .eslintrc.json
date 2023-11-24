@@ -19,6 +19,7 @@
         "ecmaVersion": "latest"
       },
       "rules": {
+        "no-constant-condition": ["error", { "checkLoops": false }],
         "jsdoc/require-param-description": "off",
         "jsdoc/require-returns-description": "off",
         "jsdoc/sort-tags": [
