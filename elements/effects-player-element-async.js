@@ -90,7 +90,6 @@ export async function promisify(executor, { signal } = {}) {
 }
 
 /**
- *
  * @param {number} duration
  * @param {{ signal?: AbortSignal }=} options
  *
@@ -103,25 +102,6 @@ export async function delay(duration, { signal } = {}) {
 
       return () => {
         window.clearTimeout(id);
-      };
-    },
-    { signal },
-  );
-}
-
-/**
- *
- * @param {{ signal?: AbortSignal }=} options
- *
- * @returns {Promise<void>}
- */
-export async function nextFrame({ signal } = {}) {
-  await promisify(
-    (resolve) => {
-      let handle = window.requestAnimationFrame(resolve);
-
-      return () => {
-        window.cancelAnimationFrame(handle);
       };
     },
     { signal },
