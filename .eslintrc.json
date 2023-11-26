@@ -4,7 +4,6 @@
       "files": ["*.js"],
       "extends": [
         "eslint:recommended",
-        "plugin:compat/recommended",
         "plugin:import/recommended",
         "plugin:jsdoc/recommended-typescript-flavor-error",
         "plugin:prettier/recommended"

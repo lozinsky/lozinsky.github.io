@@ -15,7 +15,7 @@ function getHighlightByName() {
 
   for (let index = 0; index < HIGHLIGHTS_QUANTITY; index++) {
     let name = `effects-player-rainbow-${index + 1}`;
-    let highlight = new Highlight(); // eslint-disable-line no-undef, compat/compat
+    let highlight = new Highlight(); // eslint-disable-line no-undef
 
     highlightByName.set(name, highlight);
   }
@@ -116,7 +116,7 @@ export async function run(root, signal) {
   let nextHighlightByPrevHighlight = getNextHighlightByPrevHighlight(highlights);
 
   for (let [name, highlight] of highlightByName.entries()) {
-    CSS.highlights.set(name, highlight); // eslint-disable-line compat/compat
+    CSS.highlights.set(name, highlight);
   }
 
   await Promise.all(
@@ -143,6 +143,6 @@ export async function run(root, signal) {
   );
 
   for (let name of highlightByName.keys()) {
-    CSS.highlights.delete(name); // eslint-disable-line compat/compat
+    CSS.highlights.delete(name);
   }
 }
