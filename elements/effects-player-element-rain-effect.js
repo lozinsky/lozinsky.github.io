@@ -1,4 +1,4 @@
-import { loop, parallel, setTimeout, when } from './effects-player-element-async.js';
+import { delay, loop, parallel, when } from './effects-player-element-async.js';
 import { getInteger, getSample } from './effects-player-element-random.js';
 
 const DROPLET = '\u{1f4a7}';
@@ -42,7 +42,7 @@ export async function run(root, signal) {
 
         root.appendChild(droplet);
 
-        await setTimeout(100, { signal });
+        await delay(100, { signal });
 
         let startDelay = getInteger(MIN_START_DELAY, MAX_START_DELAY);
         let startX = getInteger(-Math.abs(slope), window.innerWidth);

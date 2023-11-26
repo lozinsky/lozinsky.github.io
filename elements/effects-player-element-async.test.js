@@ -1,7 +1,7 @@
 import { assert, expect } from '@esm-bundle/chai';
 import { restoreAll, spy, spyOn } from 'tinyspy';
 
-import { loop, nextFrame, parallel, promisify, setTimeout, when } from './effects-player-element-async.js';
+import { delay, loop, nextFrame, parallel, promisify, when } from './effects-player-element-async.js';
 
 describe('effects-player-element-async', () => {
   afterEach(() => {
@@ -52,16 +52,16 @@ describe('effects-player-element-async', () => {
     });
 
     it('runs task twice', async () => {
-      let taskSpy = spy(async () => {
-        if (taskSpy.callCount === 2) {
+      let task = spy(async () => {
+        if (task.callCount === 2) {
           throw new DOMException('Aborted', 'AbortError');
         }
       });
-      let promise = loop(taskSpy);
+      let promise = loop(task);
 
       await promise;
 
-      expect(taskSpy.callCount).to.equal(2);
+      expect(task.callCount).to.equal(2);
     });
   });
 
@@ -89,12 +89,12 @@ describe('effects-player-element-async', () => {
     });
 
     it('runs task twice', async () => {
-      let taskSpy = spy(async () => {});
-      let promise = parallel(2, taskSpy);
+      let task = spy(async () => {});
+      let promise = parallel(2, task);
 
       await promise;
 
-      expect(taskSpy.callCount).to.equal(2);
+      expect(task.callCount).to.equal(2);
     });
   });
 
@@ -140,13 +140,13 @@ describe('effects-player-element-async', () => {
     });
 
     it('does not cleanup when resolve is called earlier than abort', async () => {
-      let cleanupSpy = spy();
+      let cleanup = spy();
       let abortController = new AbortControllerBuilder().build();
       let promise = promisify(
         (resolve) => {
           resolve();
 
-          return cleanupSpy;
+          return cleanup;
         },
         { signal: abortController.signal },
       );
@@ -154,7 +154,7 @@ describe('effects-player-element-async', () => {
       abortController.abort();
       await promise;
 
-      expect(cleanupSpy.callCount).to.equal(0);
+      expect(cleanup.callCount).to.equal(0);
     });
 
     it('rejects when signal is aborted', async () => {
@@ -178,11 +178,11 @@ describe('effects-player-element-async', () => {
     });
 
     it('cleanups when signal is aborted', async () => {
-      let cleanupSpy = spy();
+      let cleanup = spy();
       let abortController = new AbortControllerBuilder().build();
       let promise = promisify(
         () => {
-          return cleanupSpy;
+          return cleanup;
         },
         { signal: abortController.signal },
       );
@@ -190,7 +190,7 @@ describe('effects-player-element-async', () => {
       abortController.abort();
       await promise.catch(() => {});
 
-      expect(cleanupSpy.callCount).to.equal(1);
+      expect(cleanup.callCount).to.equal(1);
     });
 
     it('rejects when signal is already aborted', async () => {
@@ -212,50 +212,50 @@ describe('effects-player-element-async', () => {
     });
 
     it('does not cleanup when signal is already aborted', async () => {
-      let cleanupSpy = spy();
+      let cleanup = spy();
       let abortController = new AbortControllerBuilder().abort().build();
       let promise = promisify(
         () => {
-          return cleanupSpy;
+          return cleanup;
         },
         { signal: abortController.signal },
       );
 
       await promise.catch(() => {});
 
-      expect(cleanupSpy.callCount).to.equal(0);
+      expect(cleanup.callCount).to.equal(0);
     });
 
     it('does not execute when signal is already aborted', async () => {
-      let executorSpy = spy(() => {
+      let executor = spy(() => {
         return () => {};
       });
       let abortController = new AbortControllerBuilder().abort().build();
-      let promise = promisify(executorSpy, { signal: abortController.signal });
+      let promise = promisify(executor, { signal: abortController.signal });
 
       await promise.catch(() => {});
 
-      expect(executorSpy.callCount).to.equal(0);
+      expect(executor.callCount).to.equal(0);
     });
   });
 
-  describe('setTimeout', () => {
+  describe('delay', () => {
     it('resolves on timeout when signal is not provided', async () => {
-      let promise = setTimeout(10);
+      let promise = delay(10);
 
       expect(await promise).to.equal(undefined);
     });
 
     it('resolves on timeout when signal is provided', async () => {
       let abortController = new AbortControllerBuilder().build();
-      let promise = setTimeout(10, { signal: abortController.signal });
+      let promise = delay(10, { signal: abortController.signal });
 
       expect(await promise).to.equal(undefined);
     });
 
     it('rejects when signal is aborted', async () => {
       let abortController = new AbortControllerBuilder().build();
-      let promise = setTimeout(10, { signal: abortController.signal });
+      let promise = delay(10, { signal: abortController.signal });
 
       abortController.abort();
 
@@ -269,21 +269,21 @@ describe('effects-player-element-async', () => {
     });
 
     it('clears timeout when signal is aborted', async () => {
-      let setTimeoutSpy = spyOn(window, 'setTimeout');
-      let clearTimeoutSpy = spyOn(window, 'clearTimeout');
+      let setTimeout = spyOn(window, 'setTimeout');
+      let clearTimeout = spyOn(window, 'clearTimeout');
       let abortController = new AbortControllerBuilder().build();
-      let promise = setTimeout(10, { signal: abortController.signal });
+      let promise = delay(10, { signal: abortController.signal });
 
       abortController.abort();
       await promise.catch(() => {});
 
-      expect(clearTimeoutSpy.callCount).to.equal(1);
-      expect(clearTimeoutSpy.calls).to.deep.equal([setTimeoutSpy.returns]);
+      expect(clearTimeout.callCount).to.equal(1);
+      expect(clearTimeout.calls).to.deep.equal([setTimeout.returns]);
     });
 
     it('rejects when signal is already aborted', async () => {
       let abortController = new AbortControllerBuilder().abort().build();
-      let promise = setTimeout(10, { signal: abortController.signal });
+      let promise = delay(10, { signal: abortController.signal });
 
       try {
         await promise;
@@ -295,34 +295,34 @@ describe('effects-player-element-async', () => {
     });
 
     it('does not clear timeout when signal is already aborted', async () => {
-      let clearTimeoutSpy = spyOn(window, 'clearTimeout');
+      let clearTimeout = spyOn(window, 'clearTimeout');
       let abortController = new AbortControllerBuilder().abort().build();
-      let promise = setTimeout(10, { signal: abortController.signal });
+      let promise = delay(10, { signal: abortController.signal });
 
       await promise.catch(() => {});
 
-      expect(clearTimeoutSpy.callCount).to.equal(0);
+      expect(clearTimeout.callCount).to.equal(0);
     });
 
     it('does not set timeout when signal is already aborted', async () => {
-      let setTimeoutSpy = spyOn(window, 'setTimeout');
+      let setTimeout = spyOn(window, 'setTimeout');
       let abortController = new AbortControllerBuilder().abort().build();
-      let promise = setTimeout(10, { signal: abortController.signal });
+      let promise = delay(10, { signal: abortController.signal });
 
       await promise.catch(() => {});
 
-      expect(setTimeoutSpy.callCount).to.equal(0);
+      expect(setTimeout.callCount).to.equal(0);
     });
   });
 
   describe('nextFrame', () => {
-    it('resolves on next frame when signal is not provided', async () => {
+    it('resolves on animation frame when signal is not provided', async () => {
       let promise = nextFrame();
 
       expect(await promise).to.equal(undefined);
     });
 
-    it('resolves on next frame when signal is provided', async () => {
+    it('resolves on animation frame when signal is provided', async () => {
       let abortController = new AbortControllerBuilder().build();
       let promise = nextFrame({ signal: abortController.signal });
 
@@ -345,16 +345,16 @@ describe('effects-player-element-async', () => {
     });
 
     it('cancels animation frame when signal is aborted', async () => {
-      let requestAnimationFrameSpy = spyOn(window, 'requestAnimationFrame');
-      let cancelAnimationFrameSpy = spyOn(window, 'cancelAnimationFrame');
+      let requestAnimationFrame = spyOn(window, 'requestAnimationFrame');
+      let cancelAnimationFrame = spyOn(window, 'cancelAnimationFrame');
       let abortController = new AbortControllerBuilder().build();
       let promise = nextFrame({ signal: abortController.signal });
 
       abortController.abort();
       await promise.catch(() => {});
 
-      expect(cancelAnimationFrameSpy.callCount).to.equal(1);
-      expect(cancelAnimationFrameSpy.calls).to.deep.equal([requestAnimationFrameSpy.returns]);
+      expect(cancelAnimationFrame.callCount).to.equal(1);
+      expect(cancelAnimationFrame.calls).to.deep.equal([requestAnimationFrame.returns]);
     });
 
     it('rejects when signal is already aborted', async () => {
@@ -371,23 +371,23 @@ describe('effects-player-element-async', () => {
     });
 
     it('does not cancel animation frame when signal is already aborted', async () => {
-      let cancelAnimationFrameSpy = spyOn(window, 'cancelAnimationFrame');
+      let cancelAnimationFrame = spyOn(window, 'cancelAnimationFrame');
       let abortController = new AbortControllerBuilder().abort().build();
       let promise = nextFrame({ signal: abortController.signal });
 
       await promise.catch(() => {});
 
-      expect(cancelAnimationFrameSpy.callCount).to.equal(0);
+      expect(cancelAnimationFrame.callCount).to.equal(0);
     });
 
     it('does not request animation frame when signal is already aborted', async () => {
-      let requestAnimationFrameSpy = spyOn(window, 'requestAnimationFrame');
+      let requestAnimationFrame = spyOn(window, 'requestAnimationFrame');
       let abortController = new AbortControllerBuilder().abort().build();
       let promise = nextFrame({ signal: abortController.signal });
 
       await promise.catch(() => {});
 
-      expect(requestAnimationFrameSpy.callCount).to.equal(0);
+      expect(requestAnimationFrame.callCount).to.equal(0);
     });
   });
 
@@ -403,32 +403,32 @@ describe('effects-player-element-async', () => {
     });
 
     it('resolves on event when filter returns "true"', async () => {
-      let filterSpy = spy(() => true);
+      let filter = spy(() => true);
       let abortController = new AbortControllerBuilder().build();
       let eventTarget = new EventTarget();
       let event = new Event('event');
-      let promise = when(eventTarget, 'event', { filter: filterSpy, signal: abortController.signal });
-      let timeout = setTimeout(100, { signal: abortController.signal });
+      let promise = when(eventTarget, 'event', { filter, signal: abortController.signal });
+      let timeout = delay(100, { signal: abortController.signal });
 
       eventTarget.dispatchEvent(event);
 
-      expect(filterSpy.calls).to.deep.equal([[event]]);
+      expect(filter.calls).to.deep.equal([[event]]);
       expect(await Promise.race([promise, timeout])).to.equal(event);
 
       abortController.abort();
     });
 
     it('does not resolve on event when filter returns "false"', async () => {
-      let filterSpy = spy(() => false);
+      let filter = spy(() => false);
       let abortController = new AbortControllerBuilder().build();
       let eventTarget = new EventTarget();
       let event = new Event('event');
-      let promise = when(eventTarget, 'event', { filter: filterSpy, signal: abortController.signal });
-      let timeout = setTimeout(100, { signal: abortController.signal });
+      let promise = when(eventTarget, 'event', { filter, signal: abortController.signal });
+      let timeout = delay(100, { signal: abortController.signal });
 
       eventTarget.dispatchEvent(event);
 
-      expect(filterSpy.calls).to.deep.equal([[event]]);
+      expect(filter.calls).to.deep.equal([[event]]);
       expect(await Promise.race([promise, timeout])).to.equal(undefined);
 
       abortController.abort();
@@ -448,15 +448,15 @@ describe('effects-player-element-async', () => {
     it('removes event listener on event', async () => {
       let eventTarget = new EventTarget();
       let event = new Event('event');
-      let addEventListenerSpy = spyOn(eventTarget, 'addEventListener');
-      let removeEventListenerSpy = spyOn(eventTarget, 'removeEventListener');
+      let addEventListener = spyOn(eventTarget, 'addEventListener');
+      let removeEventListener = spyOn(eventTarget, 'removeEventListener');
       let promise = when(eventTarget, 'event');
 
       eventTarget.dispatchEvent(event);
       await promise;
 
-      expect(removeEventListenerSpy.callCount).to.equal(1);
-      expect(removeEventListenerSpy.calls).to.deep.equal(addEventListenerSpy.calls);
+      expect(removeEventListener.callCount).to.equal(1);
+      expect(removeEventListener.calls).to.deep.equal(addEventListener.calls);
     });
 
     it('rejects when signal is aborted', async () => {
@@ -481,16 +481,16 @@ describe('effects-player-element-async', () => {
       let abortController = new AbortControllerBuilder().build();
       let eventTarget = new EventTarget();
       let event = new Event('event');
-      let addEventListenerSpy = spyOn(eventTarget, 'addEventListener');
-      let removeEventListenerSpy = spyOn(eventTarget, 'removeEventListener');
+      let addEventListener = spyOn(eventTarget, 'addEventListener');
+      let removeEventListener = spyOn(eventTarget, 'removeEventListener');
       let promise = when(eventTarget, 'event', { signal: abortController.signal });
 
       abortController.abort();
       eventTarget.dispatchEvent(event);
       await promise.catch(() => {});
 
-      expect(removeEventListenerSpy.callCount).to.equal(1);
-      expect(removeEventListenerSpy.calls).to.deep.equal(addEventListenerSpy.calls);
+      expect(removeEventListener.callCount).to.equal(1);
+      expect(removeEventListener.calls).to.deep.equal(addEventListener.calls);
     });
 
     it('rejects when signal is already aborted', async () => {
@@ -514,26 +514,26 @@ describe('effects-player-element-async', () => {
       let abortController = new AbortControllerBuilder().abort().build();
       let eventTarget = new EventTarget();
       let event = new Event('event');
-      let removeEventListenerSpy = spyOn(eventTarget, 'removeEventListener');
+      let removeEventListener = spyOn(eventTarget, 'removeEventListener');
       let promise = when(eventTarget, 'event', { signal: abortController.signal });
 
       eventTarget.dispatchEvent(event);
       await promise.catch(() => {});
 
-      expect(removeEventListenerSpy.callCount).to.equal(0);
+      expect(removeEventListener.callCount).to.equal(0);
     });
 
     it('does not add event listener when signal is already aborted', async () => {
       let abortController = new AbortControllerBuilder().abort().build();
       let eventTarget = new EventTarget();
       let event = new Event('event');
-      let addEventListenerSpy = spyOn(eventTarget, 'addEventListener');
+      let addEventListener = spyOn(eventTarget, 'addEventListener');
       let promise = when(eventTarget, 'event', { signal: abortController.signal });
 
       eventTarget.dispatchEvent(event);
       await promise.catch(() => {});
 
-      expect(addEventListenerSpy.callCount).to.equal(0);
+      expect(addEventListener.callCount).to.equal(0);
     });
   });
 });

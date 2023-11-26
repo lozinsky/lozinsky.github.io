@@ -1,4 +1,4 @@
-import { loop, parallel, setTimeout, when } from './effects-player-element-async.js';
+import { delay, loop, parallel, when } from './effects-player-element-async.js';
 import { getInteger, getSample } from './effects-player-element-random.js';
 
 const TAU = 2 * Math.PI;
@@ -74,7 +74,7 @@ export async function run(root, signal) {
 
         root.appendChild(firework);
 
-        await setTimeout(100, { signal });
+        await delay(100, { signal });
 
         /** @type {HTMLElement[]}  */
         let circles = [...firework.children];

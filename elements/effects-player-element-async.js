@@ -96,13 +96,13 @@ export async function promisify(executor, { signal } = {}) {
  *
  * @returns {Promise<void>}
  */
-export async function setTimeout(duration, { signal } = {}) {
+export async function delay(duration, { signal } = {}) {
   await promisify(
     (resolve) => {
-      let timeout = window.setTimeout(resolve, duration);
+      let id = window.setTimeout(resolve, duration);
 
       return () => {
-        window.clearTimeout(timeout);
+        window.clearTimeout(id);
       };
     },
     { signal },

@@ -1,4 +1,4 @@
-import { loop, parallel, setTimeout, when } from './effects-player-element-async.js';
+import { delay, loop, parallel, when } from './effects-player-element-async.js';
 import { getInteger } from './effects-player-element-random.js';
 
 const MIN_FONT_SIZE = 1;
@@ -49,7 +49,7 @@ export async function run(root, signal) {
 
         root.appendChild(code);
 
-        await setTimeout(100, { signal });
+        await delay(100, { signal });
 
         code.style.setProperty('--code-y', `${window.innerHeight}px`);
 
