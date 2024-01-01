@@ -67,7 +67,7 @@ export async function promisify(executor, { signal } = {}) {
      * @returns {void}
      */
     function abort() {
-      reject(new DOMException('Aborted', 'AbortError'));
+      reject(signal.reason);
     }
 
     /**
