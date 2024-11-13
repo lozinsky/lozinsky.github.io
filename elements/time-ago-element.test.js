@@ -1,7 +1,6 @@
 import './time-ago-element.js';
 
-import { expect } from '@esm-bundle/chai';
-import { restoreAll, spyOn } from 'tinyspy';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('time-ago-element', () => {
   let root = document.body;
@@ -9,25 +8,12 @@ describe('time-ago-element', () => {
   beforeEach(() => {
     document.documentElement.lang = 'en';
 
-    useFakeTimers(new Date('2021-07-05T12:00:00.000Z').getTime());
+    vi.useFakeTimers({ now: new Date('2021-07-05T12:00:00.000Z') });
   });
 
   afterEach(() => {
     root.innerHTML = '';
-
-    restoreAll();
   });
-
-  /**
-   * @param {number} timestamp
-   */
-  function useFakeTimers(timestamp) {
-    let now = spyOn(Date, 'now');
-    let original = now.getOriginal();
-    let start = original();
-
-    now.willCall(() => timestamp + (original() - start));
-  }
 
   /**
    * @param {string} template
@@ -55,7 +41,7 @@ describe('time-ago-element', () => {
     it(`assigns text content "${expected}" when "date" is "${date}"`, () => {
       let { timeAgo } = setup(/* HTML */ `<time-ago date="${date}"></time-ago>`);
 
-      expect(timeAgo.textContent).to.equal(expected);
+      expect(timeAgo.textContent).toBe(expected);
     });
   }
 
@@ -64,6 +50,6 @@ describe('time-ago-element', () => {
 
     timeAgo.date = new Date('2019-07-05T12:00:00.000Z');
 
-    expect(timeAgo.textContent).to.equal('2 years');
+    expect(timeAgo.textContent).toBe('2 years');
   });
 });

@@ -1,6 +1,6 @@
 import './collapse-content-element.js';
 
-import { expect } from '@esm-bundle/chai';
+import { afterEach, describe, expect, it } from 'vitest';
 
 describe('collapse-content-element', () => {
   let root = document.body;
@@ -31,7 +31,7 @@ describe('collapse-content-element', () => {
       <div id="receiver">Bar</div>
     `);
 
-    expect(collapseContent.getAttribute('aria-owns')).to.equal('receiver');
+    expect(collapseContent.getAttribute('aria-owns')).toBe('receiver');
   });
 
   it('removes "receiver" "aria-owns" attribute when forwards is not defined', () => {
@@ -42,7 +42,7 @@ describe('collapse-content-element', () => {
 
     collapseContent.forwards = null;
 
-    expect(collapseContent.getAttribute('aria-owns')).to.equal(null);
+    expect(collapseContent.getAttribute('aria-owns')).toBeNull();
   });
 
   it('adds hidden attribute to receiver when forwards is defined and is hidden', () => {
@@ -51,7 +51,7 @@ describe('collapse-content-element', () => {
       <div id="receiver">Bar</div>
     `);
 
-    expect(receiver.hidden).to.equal(true);
+    expect(receiver.hidden).toBe(true);
   });
 
   it('removes hidden attribute from receiver when forwards is defined and is visible', () => {
@@ -60,7 +60,7 @@ describe('collapse-content-element', () => {
       <div id="receiver" hidden="">Bar</div>
     `);
 
-    expect(receiver.hidden).to.equal(false);
+    expect(receiver.hidden).toBe(false);
   });
 
   it('adds hidden attribute to new receiver when forwards is changed and is hidden', () => {
@@ -72,7 +72,7 @@ describe('collapse-content-element', () => {
 
     collapseContent.forwards = 'new-receiver';
 
-    expect(newReceiver.hidden).to.equal(true);
+    expect(newReceiver.hidden).toBe(true);
   });
 
   it('removes hidden attribute from new receiver when forwards is changed and is visible', () => {
@@ -84,6 +84,6 @@ describe('collapse-content-element', () => {
 
     collapseContent.forwards = 'new-receiver';
 
-    expect(newReceiver.hidden).to.equal(false);
+    expect(newReceiver.hidden).toBe(false);
   });
 });

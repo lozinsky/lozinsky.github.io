@@ -7,14 +7,12 @@
     "dev": "vite",
     "build": "vite build --assetsInlineLimit 0",
     "lint": "eslint . --ignore-path .gitignore",
-    "test": "wtr **/*.test.js --node-resolve --playwright --browsers chromium",
+    "test": "vitest --browser.name=chromium --browser.provider=playwright --browser.headless",
     "pretest": "playwright install chromium"
   },
   "devDependencies": {
     "@csstools/postcss-oklab-function": "4.0.6",
-    "@esm-bundle/chai": "4.3.4-fix.0",
-    "@web/test-runner": "0.19.0",
-    "@web/test-runner-playwright": "0.11.0",
+    "@vitest/browser": "2.1.4",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.31.0",
@@ -22,9 +20,10 @@
     "eslint-plugin-prefer-let": "4.0.0",
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-simple-import-sort": "12.1.1",
+    "playwright": "1.48.2",
     "postcss": "8.4.49",
     "prettier": "3.3.3",
-    "tinyspy": "3.0.2",
-    "vite": "5.4.11"
+    "vite": "5.4.11",
+    "vitest": "2.1.4"
   }
 }

@@ -2,16 +2,13 @@ import './collapse-content-element.js';
 import './collapse-entry-element.js';
 import './collapse-handle-element.js';
 
-import { expect } from '@esm-bundle/chai';
-import { restoreAll, spyOn } from 'tinyspy';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 describe('collapse-entry-element', () => {
   let root = document.body;
 
   afterEach(() => {
     root.innerHTML = '';
-
-    restoreAll();
   });
 
   /**
@@ -50,7 +47,7 @@ describe('collapse-entry-element', () => {
 
     await when('collapse-entry-opened');
 
-    expect(collapseContent.hidden).to.equal(false);
+    expect(collapseContent.hidden).toBe(false);
   });
 
   it('hides "collapse-content" when is closed', async () => {
@@ -63,7 +60,7 @@ describe('collapse-entry-element', () => {
 
     await when('collapse-entry-closed');
 
-    expect(collapseContent.hidden).to.equal(true);
+    expect(collapseContent.hidden).toBe(true);
   });
 
   it('adds "true" "aria-expanded" attribute to "collapse-handle" when is opened', async () => {
@@ -76,7 +73,7 @@ describe('collapse-entry-element', () => {
 
     await when('collapse-entry-opened');
 
-    expect(collapseHandle.getAttribute('aria-expanded')).to.equal('true');
+    expect(collapseHandle.getAttribute('aria-expanded')).toBe('true');
   });
 
   it('adds "false" "aria-expanded" attribute to "collapse-handle" when is closed', async () => {
@@ -89,7 +86,7 @@ describe('collapse-entry-element', () => {
 
     await when('collapse-entry-closed');
 
-    expect(collapseHandle.getAttribute('aria-expanded')).to.equal('false');
+    expect(collapseHandle.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('enables "collapse-handle" when once is changed to false', async () => {
@@ -106,7 +103,7 @@ describe('collapse-entry-element', () => {
 
     await when('collapse-entry-enabled');
 
-    expect(collapseHandle.disabled).to.equal(false);
+    expect(collapseHandle.disabled).toBe(false);
   });
 
   it('disables "collapse-handle" on "collapse-handle-toggle" event when once is defined', async () => {
@@ -123,7 +120,7 @@ describe('collapse-entry-element', () => {
 
     await when('collapse-entry-disabled');
 
-    expect(collapseHandle.disabled).to.equal(true);
+    expect(collapseHandle.disabled).toBe(true);
   });
 
   it('opens on "collapse-handle-toggle" event when is closed', async () => {
@@ -138,7 +135,7 @@ describe('collapse-entry-element', () => {
 
     collapseEntry.dispatchEvent(new CustomEvent('collapse-handle-toggle', { bubbles: true }));
 
-    expect(collapseEntry.opened).to.equal(true);
+    expect(collapseEntry.opened).toBe(true);
   });
 
   it('closes on "collapse-handle-toggle" event when is opened', async () => {
@@ -153,7 +150,7 @@ describe('collapse-entry-element', () => {
 
     collapseEntry.dispatchEvent(new CustomEvent('collapse-handle-toggle', { bubbles: true }));
 
-    expect(collapseEntry.opened).to.equal(false);
+    expect(collapseEntry.opened).toBe(false);
   });
 
   it('stops "collapse-handle-toggle" event propagation', async () => {
@@ -164,12 +161,12 @@ describe('collapse-entry-element', () => {
       </collapse-entry>
     `);
     let collapseHandleToggleEvent = new CustomEvent('collapse-handle-toggle', { bubbles: true });
-    let stopPropagation = spyOn(collapseHandleToggleEvent, 'stopPropagation');
+    let stopPropagation = vi.spyOn(collapseHandleToggleEvent, 'stopPropagation');
 
     await when('collapse-entry-closed');
 
     collapseEntry.dispatchEvent(collapseHandleToggleEvent);
 
-    expect(stopPropagation.callCount).to.equal(1);
+    expect(stopPropagation).toBeCalledTimes(1);
   });
 });
