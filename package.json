@@ -4,7 +4,7 @@
   "homepage": "https://lozinsky.dev",
   "license": "MIT",
   "scripts": {
-    "start": "vite",
+    "dev": "vite",
     "build": "vite build --assetsInlineLimit 0",
     "lint": "eslint . --ignore-path .gitignore",
     "test": "wtr **/*.test.js --node-resolve --playwright --browsers chromium",
