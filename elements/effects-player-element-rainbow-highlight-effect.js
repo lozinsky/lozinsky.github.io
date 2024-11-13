@@ -1,3 +1,5 @@
+import { getCountryForTimezone } from 'countries-and-timezones';
+
 import { delay, loop } from './effects-player-element-async.js';
 import { getInteger } from './effects-player-element-random.js';
 
@@ -99,6 +101,10 @@ function getRanges(root) {
  * @returns {boolean}
  */
 export function isSupported() {
+  if (getCountryForTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone).id === 'RU') {
+    return false;
+  }
+
   return 'highlights' in CSS;
 }
 

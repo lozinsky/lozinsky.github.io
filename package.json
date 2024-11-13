@@ -10,6 +10,9 @@
     "test": "vitest --browser.name=chromium --browser.provider=playwright --browser.headless",
     "pretest": "playwright install chromium"
   },
+  "dependencies": {
+    "countries-and-timezones": "3.7.2"
+  },
   "devDependencies": {
     "@csstools/postcss-oklab-function": "4.0.6",
     "@vitest/browser": "2.1.4",
