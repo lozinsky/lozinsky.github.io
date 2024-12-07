@@ -1,16 +1,30 @@
-import { when } from './effects-player-element-async.js';
 import { EffectsPlayerElementSwitcher } from './effects-player-element-switcher.js';
+import { when } from './shared/async.js';
 
 export class EffectsPlayerElement extends HTMLElement {
-  static {
-    customElements.define('effects-player', this);
-  }
-
   /**
    * @type {string[]}
    */
   static get observedAttributes() {
     return ['stopped'];
+  }
+
+  static {
+    customElements.define('effects-player', this);
+  }
+
+  /**
+   * @type {boolean}
+   */
+  get stopped() {
+    return this.hasAttribute('stopped');
+  }
+
+  /**
+   * @param {boolean} value
+   */
+  set stopped(value) {
+    this.toggleAttribute('stopped', value);
   }
 
   /**
@@ -32,22 +46,6 @@ export class EffectsPlayerElement extends HTMLElement {
   }
 
   /**
-   * @returns {void}
-   */
-  connectedCallback() {
-    if (!this.hasAttribute('stopped')) {
-      this.#handleStoppedChange(false);
-    }
-  }
-
-  /**
-   * @returns {void}
-   */
-  disconnectedCallback() {
-    this.#stop();
-  }
-
-  /**
    * @param {string} name
    * @param {string | null} oldValue
    * @param {string | null} newValue
@@ -61,17 +59,19 @@ export class EffectsPlayerElement extends HTMLElement {
   }
 
   /**
-   * @type {boolean}
+   * @returns {void}
    */
-  get stopped() {
-    return this.hasAttribute('stopped');
+  connectedCallback() {
+    if (!this.hasAttribute('stopped')) {
+      this.#handleStoppedChange(false);
+    }
   }
 
   /**
-   * @param {boolean} value
+   * @returns {void}
    */
-  set stopped(value) {
-    this.toggleAttribute('stopped', value);
+  disconnectedCallback() {
+    this.#stop();
   }
 
   /**
@@ -115,7 +115,7 @@ export class EffectsPlayerElement extends HTMLElement {
 
       this.removeAttribute('tabindex');
       this.removeAttribute('role');
-      this.#play();
+      void this.#play();
     }
   }
 
@@ -124,23 +124,28 @@ export class EffectsPlayerElement extends HTMLElement {
    */
   async #play() {
     try {
-      let root = document.body;
-      let playing = new AbortController();
+      const root = document.body;
+      const playing = new AbortController();
 
       this.#playing = playing;
-      this.#switcher.switch(root, playing.signal);
+      void this.#switcher.switch(root, playing.signal);
 
       await Promise.race([
         when(document, 'click', {
           signal: playing.signal,
         }),
         when(document, 'keydown', {
-          signal: playing.signal,
+          /**
+           * @param {KeyboardEvent} event
+           *
+           * @returns {boolean}
+           */
           filter: (event) => event.key === 'Escape',
+          signal: playing.signal,
         }),
         when(document, 'visibilitychange', {
-          signal: playing.signal,
           filter: () => document.visibilityState === 'hidden',
+          signal: playing.signal,
         }),
         when(window, 'resize', {
           signal: playing.signal,

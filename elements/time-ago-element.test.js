@@ -1,55 +1,52 @@
 import './time-ago-element.js';
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 
-describe('time-ago-element', () => {
-  let root = document.body;
+import { expectToBeDefined } from './shared/expect.js';
 
-  beforeEach(() => {
-    document.documentElement.lang = 'en';
+const root = document.body;
 
-    vi.useFakeTimers({ now: new Date('2021-07-05T12:00:00.000Z') });
-  });
+beforeEach(() => {
+  document.documentElement.lang = 'en';
 
-  afterEach(() => {
-    root.innerHTML = '';
-  });
+  vi.useFakeTimers({ now: new Date('2021-07-05T12:00:00.000Z') });
+});
 
-  /**
-   * @param {string} template
-   */
-  function setup(template) {
-    root.innerHTML = template;
+afterEach(() => {
+  root.innerHTML = '';
+});
 
-    /** @type {import('./time-ago-element').TimeAgoElement} */
-    let timeAgo = root.querySelector('time-ago');
+/**
+ * @param {string} template
+ */
+function setup(template) {
+  root.innerHTML = template;
 
-    return { timeAgo };
-  }
+  const timeAgo = expectToBeDefined(root.querySelector('time-ago'));
 
-  for (let [date, expected] of [
-    ['2021-07-05T12:00:00.000Z', '0 days'],
-    ['2021-07-04T12:00:00.000Z', '1 day'],
-    ['2021-06-29T12:00:00.000Z', '6 days'],
-    ['2021-06-28T12:00:00.000Z', '1 week'],
-    ['2021-06-05T12:00:00.000Z', '4 weeks'],
-    ['2021-06-04T12:00:00.000Z', '1 month'],
-    ['2020-08-04T12:00:00.000Z', '11 months'],
-    ['2020-07-05T12:00:00.000Z', '1 year'],
-    ['2009-07-05T12:00:00.000Z', '12 years'],
-  ]) {
-    it(`assigns text content "${expected}" when "date" is "${date}"`, () => {
-      let { timeAgo } = setup(/* HTML */ `<time-ago date="${date}"></time-ago>`);
+  return { timeAgo };
+}
 
-      expect(timeAgo.textContent).toBe(expected);
-    });
-  }
+it.each([
+  ['0 days', '2021-07-05T12:00:00.000Z'],
+  ['1 day', '2021-07-04T12:00:00.000Z'],
+  ['6 days', '2021-06-29T12:00:00.000Z'],
+  ['1 week', '2021-06-28T12:00:00.000Z'],
+  ['4 weeks', '2021-06-05T12:00:00.000Z'],
+  ['1 month', '2021-06-04T12:00:00.000Z'],
+  ['11 months', '2020-08-04T12:00:00.000Z'],
+  ['1 year', '2020-07-05T12:00:00.000Z'],
+  ['12 years', '2009-07-05T12:00:00.000Z'],
+])('assigns text content "%s" when "date" is "%s"', (expected, date) => {
+  const { timeAgo } = setup(/* HTML */ `<time-ago date="${date}"></time-ago>`);
 
-  it('assigns new text content when "date" is changed', () => {
-    let { timeAgo } = setup(/* HTML */ `<time-ago date="2021-07-05T12:00:00.000Z"></time-ago>`);
+  expect(timeAgo.textContent).toBe(expected);
+});
 
-    timeAgo.date = new Date('2019-07-05T12:00:00.000Z');
+it('assigns new text content when "date" is changed', () => {
+  const { timeAgo } = setup(/* HTML */ `<time-ago date="2021-07-05T12:00:00.000Z"></time-ago>`);
 
-    expect(timeAgo.textContent).toBe('2 years');
-  });
+  timeAgo.date = new Date('2019-07-05T12:00:00.000Z');
+
+  expect(timeAgo.textContent).toBe('2 years');
 });

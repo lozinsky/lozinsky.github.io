@@ -1,109 +1,106 @@
 import './collapse-handle-element.js';
 
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
 
-describe('collapse-handle-element', () => {
-  let root = document.body;
-  let keys = [' ', 'Enter'];
+import { expectToBeDefined } from './shared/expect.js';
 
-  afterEach(() => {
-    root.innerHTML = '';
-  });
+const root = document.body;
+const keys = [' ', 'Enter'];
 
-  /**
-   * @param {string} template
-   */
-  function setup(template) {
-    root.innerHTML = template;
+afterEach(() => {
+  root.innerHTML = '';
+});
 
-    /** @type {import('./collapse-handle-element').CollapseHandleElement} */
-    let collapseHandle = root.querySelector('collapse-handle');
+/**
+ * @param {string} template
+ */
+function setup(template) {
+  root.innerHTML = template;
 
-    return { collapseHandle };
-  }
+  const collapseHandle = expectToBeDefined(root.querySelector('collapse-handle'));
 
-  it('adds "0" "tabindex" attribute when is enabled', () => {
-    let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
+  return { collapseHandle };
+}
 
-    expect(collapseHandle.getAttribute('tabindex')).toBe('0');
-  });
+it('adds "0" "tabindex" attribute when is enabled', () => {
+  const { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
 
-  it('removes "0" "tabindex" attribute when is disabled', () => {
-    let { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
+  expect(collapseHandle.getAttribute('tabindex')).toBe('0');
+});
 
-    expect(collapseHandle.getAttribute('tabindex')).toBeNull();
-  });
+it('removes "0" "tabindex" attribute when is disabled', () => {
+  const { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
 
-  it('adds "button" "role" attribute when is enabled', () => {
-    let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
+  expect(collapseHandle.getAttribute('tabindex')).toBeNull();
+});
 
-    expect(collapseHandle.getAttribute('role')).toBe('button');
-  });
+it('adds "button" "role" attribute when is enabled', () => {
+  const { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
 
-  it('removes "button" "role" attribute when is disabled', () => {
-    let { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
+  expect(collapseHandle.getAttribute('role')).toBe('button');
+});
 
-    expect(collapseHandle.getAttribute('role')).toBeNull();
-  });
+it('removes "button" "role" attribute when is disabled', () => {
+  const { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
 
-  it('triggers "collapse-handle-toggle" event on click when is enabled', () => {
-    let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
-    let handleCollapseHandleToggle = vi.fn();
+  expect(collapseHandle.getAttribute('role')).toBeNull();
+});
 
-    collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
-    collapseHandle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+it('triggers "collapse-handle-toggle" event on click when is enabled', () => {
+  const { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
+  const handleCollapseHandleToggle = vi.fn();
 
-    expect(handleCollapseHandleToggle).toBeCalledTimes(1);
-  });
+  collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
+  collapseHandle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
-  it('does not trigger "collapse-handle-toggle" event on click when is disabled', () => {
-    let { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
-    let handleCollapseHandleToggle = vi.fn();
+  expect(handleCollapseHandleToggle).toBeCalledTimes(1);
+});
 
-    collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
-    collapseHandle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+it('does not trigger "collapse-handle-toggle" event on click when is disabled', () => {
+  const { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
+  const handleCollapseHandleToggle = vi.fn();
 
-    expect(handleCollapseHandleToggle).not.toBeCalled();
-  });
+  collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
+  collapseHandle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
-  for (let key of keys) {
-    it(`triggers "collapse-handle-toggle" event on "${key}" keydown when is enabled`, () => {
-      let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
-      let handleCollapseHandleToggle = vi.fn();
+  expect(handleCollapseHandleToggle).not.toBeCalled();
+});
 
-      collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
-      collapseHandle.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key }));
+it.each(keys)('triggers "collapse-handle-toggle" event on "%s" keydown when is enabled', (key) => {
+  const { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
+  const handleCollapseHandleToggle = vi.fn();
 
-      expect(handleCollapseHandleToggle).toBeCalledTimes(1);
-    });
+  collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
+  collapseHandle.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key }));
 
-    it(`does not trigger "collapse-handle-toggle" event on "${key}" keydown when is disabled`, () => {
-      let { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
-      let handleCollapseHandleToggle = vi.fn();
+  expect(handleCollapseHandleToggle).toBeCalledTimes(1);
+});
 
-      collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
-      collapseHandle.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key }));
+it.each(keys)('does not trigger "collapse-handle-toggle" event on "%s" keydown when is disabled', (key) => {
+  const { collapseHandle } = setup(/* HTML */ `<collapse-handle disabled="">Foo</collapse-handle>`);
+  const handleCollapseHandleToggle = vi.fn();
 
-      expect(handleCollapseHandleToggle).not.toBeCalled();
-    });
-  }
+  collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
+  collapseHandle.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key }));
 
-  it('blurs when is focused and is disabled', () => {
-    let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
-    let blur = vi.spyOn(collapseHandle, 'blur');
+  expect(handleCollapseHandleToggle).not.toBeCalled();
+});
 
-    collapseHandle.focus();
-    collapseHandle.disabled = true;
+it('blurs when is focused and is disabled', () => {
+  const { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
+  const blur = vi.spyOn(collapseHandle, 'blur');
 
-    expect(blur).toBeCalledTimes(1);
-  });
+  collapseHandle.focus();
+  collapseHandle.disabled = true;
 
-  it('does not blur when is blurred and is disabled', () => {
-    let { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
-    let blur = vi.spyOn(collapseHandle, 'blur');
+  expect(blur).toBeCalledTimes(1);
+});
 
-    collapseHandle.disabled = true;
+it('does not blur when is blurred and is disabled', () => {
+  const { collapseHandle } = setup(/* HTML */ `<collapse-handle>Foo</collapse-handle>`);
+  const blur = vi.spyOn(collapseHandle, 'blur');
 
-    expect(blur).not.toBeCalled();
-  });
+  collapseHandle.disabled = true;
+
+  expect(blur).not.toBeCalled();
 });

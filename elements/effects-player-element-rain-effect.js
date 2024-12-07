@@ -1,5 +1,5 @@
-import { delay, loop, parallel, when } from './effects-player-element-async.js';
-import { getInteger, getSample } from './effects-player-element-random.js';
+import { delay, loop, parallel, when } from './shared/async.js';
+import { getInteger, getSample } from './shared/random.js';
 
 const DROPLET = '\u{1f4a7}';
 const SLOPES = [-200, 200];
@@ -22,12 +22,12 @@ export function isSupported() {
  * @returns {Promise<void>}
  */
 export async function run(root, signal) {
-  let slope = getSample(SLOPES);
-  let transitionDuration = getInteger(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
+  const slope = getSample(SLOPES);
+  const transitionDuration = getInteger(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
 
   await parallel(window.innerWidth / 2, async () => {
     await loop(async () => {
-      let droplet = document.createElement('span');
+      const droplet = document.createElement('span');
 
       try {
         droplet.textContent = DROPLET;
@@ -44,12 +44,12 @@ export async function run(root, signal) {
 
         await delay(100, { signal });
 
-        let startDelay = getInteger(MIN_START_DELAY, MAX_START_DELAY);
-        let startX = getInteger(-Math.abs(slope), window.innerWidth);
-        let startY = -droplet.offsetHeight;
-        let endX = startX - slope;
-        let endY = window.innerHeight;
-        let angle = (Math.atan2(endY - startY, endX - startX) * 180) / Math.PI - 90;
+        const startDelay = getInteger(MIN_START_DELAY, MAX_START_DELAY);
+        const startX = getInteger(-Math.abs(slope), window.innerWidth);
+        const startY = -droplet.offsetHeight;
+        const endX = startX - slope;
+        const endY = window.innerHeight;
+        const angle = (Math.atan2(endY - startY, endX - startX) * 180) / Math.PI - 90;
 
         droplet.style.transitionDuration = `${startDelay}ms`;
         droplet.style.setProperty('--droplet-x', `${startX}px`);

@@ -1,8 +1,4 @@
 export class CollapseHandleElement extends HTMLElement {
-  static {
-    customElements.define('collapse-handle', this);
-  }
-
   /**
    * @type {string[]}
    */
@@ -10,33 +6,8 @@ export class CollapseHandleElement extends HTMLElement {
     return ['disabled'];
   }
 
-  constructor() {
-    super();
-
-    this.addEventListener('click', this.#handleClick);
-    this.addEventListener('keydown', this.#handleKeydown);
-  }
-
-  /**
-   * @returns {void}
-   */
-  connectedCallback() {
-    if (!this.hasAttribute('disabled')) {
-      this.#handleDisabledChange(false);
-    }
-  }
-
-  /**
-   * @param {string} name
-   * @param {string | null} oldValue
-   * @param {string | null} newValue
-   *
-   * @returns {void}
-   */
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue !== newValue && name === 'disabled') {
-      this.#handleDisabledChange(newValue !== null);
-    }
+  static {
+    customElements.define('collapse-handle', this);
   }
 
   /**
@@ -53,22 +24,40 @@ export class CollapseHandleElement extends HTMLElement {
     this.toggleAttribute('disabled', value);
   }
 
+  constructor() {
+    super();
+
+    this.addEventListener('click', this.#handleClick);
+    this.addEventListener('keydown', this.#handleKeydown);
+  }
+
+  /**
+   * @param {string} name
+   * @param {string | null} oldValue
+   * @param {string | null} newValue
+   *
+   * @returns {void}
+   */
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue !== newValue && name === 'disabled') {
+      this.#handleDisabledChange(newValue !== null);
+    }
+  }
+
+  /**
+   * @returns {void}
+   */
+  connectedCallback() {
+    if (!this.hasAttribute('disabled')) {
+      this.#handleDisabledChange(false);
+    }
+  }
+
   /**
    * @returns {void}
    */
   #handleClick() {
     this.#toggle();
-  }
-
-  /**
-   * @param {KeyboardEvent} event
-   *
-   * @returns {void}
-   */
-  #handleKeydown(event) {
-    if (event.key === ' ' || event.key === 'Enter') {
-      this.#toggle();
-    }
   }
 
   /**
@@ -87,6 +76,17 @@ export class CollapseHandleElement extends HTMLElement {
     } else {
       this.setAttribute('tabindex', '0');
       this.setAttribute('role', 'button');
+    }
+  }
+
+  /**
+   * @param {KeyboardEvent} event
+   *
+   * @returns {void}
+   */
+  #handleKeydown(event) {
+    if (event.key === ' ' || event.key === 'Enter') {
+      this.#toggle();
     }
   }
 

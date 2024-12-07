@@ -1,8 +1,6 @@
-export class CollapseEntryElement extends HTMLElement {
-  static {
-    customElements.define('collapse-entry', this);
-  }
+import { expectToBeDefined } from './shared/expect.js';
 
+export class CollapseEntryElement extends HTMLElement {
   /**
    * @type {string[]}
    */
@@ -10,46 +8,22 @@ export class CollapseEntryElement extends HTMLElement {
     return ['opened', 'once'];
   }
 
-  constructor() {
-    super();
-
-    this.addEventListener('collapse-handle-toggle', this.#handleCollapseHandleToggle);
+  static {
+    customElements.define('collapse-entry', this);
   }
 
   /**
-   * @returns {void}
+   * @type {boolean}
    */
-  connectedCallback() {
-    if (!this.hasAttribute('opened')) {
-      this.#handleOpenedChange(false);
-    }
-
-    if (!this.hasAttribute('once')) {
-      this.#handleOnceChange(false);
-    }
+  get once() {
+    return this.hasAttribute('once');
   }
 
   /**
-   * @param {string} name
-   * @param {string | null} oldValue
-   * @param {string | null} newValue
-   *
-   * @returns {void}
+   * @param {boolean} value
    */
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue === newValue) {
-      return;
-    }
-
-    switch (name) {
-      case 'opened':
-        this.#handleOpenedChange(newValue !== null);
-        break;
-
-      case 'once':
-        this.#handleOnceChange(newValue !== null);
-        break;
-    }
+  set once(value) {
+    this.toggleAttribute('once', value);
   }
 
   /**
@@ -66,18 +40,62 @@ export class CollapseEntryElement extends HTMLElement {
     this.toggleAttribute('opened', value);
   }
 
-  /**
-   * @type {boolean}
-   */
-  get once() {
-    return this.hasAttribute('once');
+  constructor() {
+    super();
+
+    this.addEventListener('collapse-handle-toggle', this.#handleCollapseHandleToggle);
   }
 
   /**
-   * @param {boolean} value
+   * @param {string} name
+   * @param {string | null} oldValue
+   * @param {string | null} newValue
+   *
+   * @returns {void}
    */
-  set once(value) {
-    this.toggleAttribute('once', value);
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue === newValue) {
+      return;
+    }
+
+    switch (name) {
+      case 'once':
+        void this.#handleOnceChange(newValue !== null);
+        break;
+
+      case 'opened':
+        void this.#handleOpenedChange(newValue !== null);
+        break;
+    }
+  }
+
+  /**
+   * @returns {void}
+   */
+  connectedCallback() {
+    if (!this.hasAttribute('opened')) {
+      void this.#handleOpenedChange(false);
+    }
+
+    if (!this.hasAttribute('once')) {
+      void this.#handleOnceChange(false);
+    }
+  }
+
+  /**
+   * @param {boolean} disabled
+   *
+   * @returns {Promise<void>}
+   */
+  async #disableHandle(disabled) {
+    await customElements.whenDefined('collapse-handle');
+
+    const collapseHandle = expectToBeDefined(this.querySelector('collapse-handle'));
+    const eventType = disabled ? 'collapse-entry-disabled' : 'collapse-entry-enabled';
+
+    collapseHandle.disabled = disabled;
+
+    this.dispatchEvent(new CustomEvent(eventType, { bubbles: true }));
   }
 
   /**
@@ -96,26 +114,6 @@ export class CollapseEntryElement extends HTMLElement {
   }
 
   /**
-   * @param {boolean} opened
-   *
-   * @returns {Promise<void>}
-   */
-  async #handleOpenedChange(opened) {
-    await Promise.all([customElements.whenDefined('collapse-handle'), customElements.whenDefined('collapse-content')]);
-
-    /** @type {import('./collapse-content-element').CollapseContentElement} */
-    let collapseContent = this.querySelector('collapse-content');
-    /** @type {import('./collapse-handle-element').CollapseHandleElement} */
-    let collapseHandle = this.querySelector('collapse-handle');
-    let eventType = opened ? 'collapse-entry-opened' : 'collapse-entry-closed';
-
-    collapseContent.hidden = !opened;
-    collapseHandle.setAttribute('aria-expanded', opened.toString());
-
-    this.dispatchEvent(new CustomEvent(eventType, { bubbles: true }));
-  }
-
-  /**
    * @param {boolean} once
    *
    * @returns {Promise<void>}
@@ -127,18 +125,19 @@ export class CollapseEntryElement extends HTMLElement {
   }
 
   /**
-   * @param {boolean} disabled
+   * @param {boolean} opened
    *
    * @returns {Promise<void>}
    */
-  async #disableHandle(disabled) {
-    await customElements.whenDefined('collapse-handle');
+  async #handleOpenedChange(opened) {
+    await Promise.all([customElements.whenDefined('collapse-handle'), customElements.whenDefined('collapse-content')]);
 
-    /** @type {import('./collapse-handle-element').CollapseHandleElement} */
-    let collapseHandle = this.querySelector('collapse-handle');
-    let eventType = disabled ? 'collapse-entry-disabled' : 'collapse-entry-enabled';
+    const collapseContent = expectToBeDefined(this.querySelector('collapse-content'));
+    const collapseHandle = expectToBeDefined(this.querySelector('collapse-handle'));
+    const eventType = opened ? 'collapse-entry-opened' : 'collapse-entry-closed';
 
-    collapseHandle.disabled = disabled;
+    collapseContent.hidden = !opened;
+    collapseHandle.setAttribute('aria-expanded', opened.toString());
 
     this.dispatchEvent(new CustomEvent(eventType, { bubbles: true }));
   }

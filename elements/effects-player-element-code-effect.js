@@ -1,5 +1,5 @@
-import { delay, loop, parallel, when } from './effects-player-element-async.js';
-import { getInteger } from './effects-player-element-random.js';
+import { delay, loop, parallel, when } from './shared/async.js';
+import { getInteger } from './shared/random.js';
 
 const MIN_FONT_SIZE = 1;
 const MAX_FONT_SIZE = 3;
@@ -24,17 +24,17 @@ export function isSupported() {
  * @returns {Promise<void>}
  */
 export async function run(root, signal) {
-  let textContent = document.documentElement.innerHTML;
+  const textContent = document.documentElement.innerHTML;
 
   await parallel(3, async () => {
     await loop(async () => {
-      let code = document.createElement('pre');
+      const code = document.createElement('pre');
 
       try {
-        let fontSize = getInteger(MIN_FONT_SIZE, MAX_FONT_SIZE);
-        let opacity = getInteger(MIN_OPACITY, MAX_OPACITY);
-        let transitionDuration = getInteger(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
-        let translateX = getInteger(MIN_TRANSLATE_X, MAX_TRANSLATE_X);
+        const fontSize = getInteger(MIN_FONT_SIZE, MAX_FONT_SIZE);
+        const opacity = getInteger(MIN_OPACITY, MAX_OPACITY);
+        const transitionDuration = getInteger(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
+        const translateX = getInteger(MIN_TRANSLATE_X, MAX_TRANSLATE_X);
 
         code.textContent = textContent;
         code.style.fontSize = `${fontSize}rem`;

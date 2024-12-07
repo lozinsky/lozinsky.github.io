@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 export class EffectsPlayerElementSwitcher {
   /**
    * @type {number}
@@ -20,8 +22,11 @@ export class EffectsPlayerElementSwitcher {
    * @returns {Promise<void>}
    */
   async switch(root, signal) {
-    let name = this.#names[this.#current];
-    let effect = await import(`./effects-player-element-${name}-effect.js`);
+    const name = this.#names[this.#current];
+    /**
+     * @type {{ isSupported: () => boolean, run: (root: HTMLElement, signal: AbortSignal) => Promise<void> }}
+     */
+    const effect = await import(`./effects-player-element-${name}-effect.js`);
 
     this.#current = (this.#current + 1) % this.#names.length;
 

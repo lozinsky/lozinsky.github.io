@@ -1,89 +1,88 @@
 import './collapse-content-element.js';
 
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, expect, it } from 'vitest';
 
-describe('collapse-content-element', () => {
-  let root = document.body;
+import { expectToBeDefined } from './shared/expect.js';
 
-  afterEach(() => {
-    root.innerHTML = '';
-  });
+const root = document.body;
 
-  /**
-   * @param {string} template
-   */
-  function setup(template) {
-    root.innerHTML = template;
+afterEach(() => {
+  root.innerHTML = '';
+});
 
-    /** @type {import('./collapse-content-element').CollapseContentElement} */
-    let collapseContent = root.querySelector('collapse-content');
-    /** @type {HTMLElement} */
-    let receiver = root.querySelector('#receiver');
-    /** @type {HTMLElement} */
-    let newReceiver = root.querySelector('#new-receiver');
+/**
+ * @param {string} template
+ */
+function setup(template) {
+  root.innerHTML = template;
 
-    return { collapseContent, receiver, newReceiver };
-  }
+  const collapseContent = expectToBeDefined(root.querySelector('collapse-content'));
+  /** @type {HTMLElement} */
+  const receiver = expectToBeDefined(root.querySelector('#receiver'));
+  /** @type {HTMLElement | null} */
+  const newReceiver = root.querySelector('#new-receiver');
 
-  it('adds "receiver" "aria-owns" attribute when forwards is defined', () => {
-    let { collapseContent } = setup(/* HTML */ `
-      <collapse-content forwards="receiver">Foo</collapse-content>
-      <div id="receiver">Bar</div>
-    `);
+  return { collapseContent, newReceiver, receiver };
+}
 
-    expect(collapseContent.getAttribute('aria-owns')).toBe('receiver');
-  });
+it('adds "receiver" "aria-owns" attribute when forwards is defined', () => {
+  const { collapseContent } = setup(/* HTML */ `
+    <collapse-content forwards="receiver">Foo</collapse-content>
+    <div id="receiver">Bar</div>
+  `);
 
-  it('removes "receiver" "aria-owns" attribute when forwards is not defined', () => {
-    let { collapseContent } = setup(/* HTML */ `
-      <collapse-content forwards="receiver">Foo</collapse-content>
-      <div id="receiver">Bar</div>
-    `);
+  expect(collapseContent.getAttribute('aria-owns')).toBe('receiver');
+});
 
-    collapseContent.forwards = null;
+it('removes "receiver" "aria-owns" attribute when forwards is not defined', () => {
+  const { collapseContent } = setup(/* HTML */ `
+    <collapse-content forwards="receiver">Foo</collapse-content>
+    <div id="receiver">Bar</div>
+  `);
 
-    expect(collapseContent.getAttribute('aria-owns')).toBeNull();
-  });
+  collapseContent.forwards = null;
 
-  it('adds hidden attribute to receiver when forwards is defined and is hidden', () => {
-    let { receiver } = setup(/* HTML */ `
-      <collapse-content forwards="receiver" hidden="">Foo</collapse-content>
-      <div id="receiver">Bar</div>
-    `);
+  expect(collapseContent.getAttribute('aria-owns')).toBeNull();
+});
 
-    expect(receiver.hidden).toBe(true);
-  });
+it('adds hidden attribute to receiver when forwards is defined and is hidden', () => {
+  const { receiver } = setup(/* HTML */ `
+    <collapse-content forwards="receiver" hidden="">Foo</collapse-content>
+    <div id="receiver">Bar</div>
+  `);
 
-  it('removes hidden attribute from receiver when forwards is defined and is visible', () => {
-    let { receiver } = setup(/* HTML */ `
-      <collapse-content forwards="receiver">Foo</collapse-content>
-      <div id="receiver" hidden="">Bar</div>
-    `);
+  expect(receiver.hidden).toBe(true);
+});
 
-    expect(receiver.hidden).toBe(false);
-  });
+it('removes hidden attribute from receiver when forwards is defined and is visible', () => {
+  const { receiver } = setup(/* HTML */ `
+    <collapse-content forwards="receiver">Foo</collapse-content>
+    <div id="receiver" hidden="">Bar</div>
+  `);
 
-  it('adds hidden attribute to new receiver when forwards is changed and is hidden', () => {
-    let { collapseContent, newReceiver } = setup(/* HTML */ `
-      <collapse-content forwards="receiver" hidden="">Foo</collapse-content>
-      <div id="receiver">Bar</div>
-      <div id="new-receiver">Baz</div>
-    `);
+  expect(receiver.hidden).toBe(false);
+});
 
-    collapseContent.forwards = 'new-receiver';
+it('adds hidden attribute to new receiver when forwards is changed and is hidden', () => {
+  const { collapseContent, newReceiver } = setup(/* HTML */ `
+    <collapse-content forwards="receiver" hidden="">Foo</collapse-content>
+    <div id="receiver">Bar</div>
+    <div id="new-receiver">Baz</div>
+  `);
 
-    expect(newReceiver.hidden).toBe(true);
-  });
+  collapseContent.forwards = 'new-receiver';
 
-  it('removes hidden attribute from new receiver when forwards is changed and is visible', () => {
-    let { collapseContent, newReceiver } = setup(/* HTML */ `
-      <collapse-content forwards="receiver">Foo</collapse-content>
-      <div id="receiver" hidden="">Bar</div>
-      <div id="new-receiver" hidden="">Baz</div>
-    `);
+  expect(expectToBeDefined(newReceiver).hidden).toBe(true);
+});
 
-    collapseContent.forwards = 'new-receiver';
+it('removes hidden attribute from new receiver when forwards is changed and is visible', () => {
+  const { collapseContent, newReceiver } = setup(/* HTML */ `
+    <collapse-content forwards="receiver">Foo</collapse-content>
+    <div id="receiver" hidden="">Bar</div>
+    <div id="new-receiver" hidden="">Baz</div>
+  `);
 
-    expect(newReceiver.hidden).toBe(false);
-  });
+  collapseContent.forwards = 'new-receiver';
+
+  expect(expectToBeDefined(newReceiver).hidden).toBe(false);
 });

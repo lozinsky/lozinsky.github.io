@@ -35,3 +35,16 @@ jobs:
 
       - name: Test
         run: npm test
+
+  type-check:
+    name: Type check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare
+        uses: ./.github/actions/prepare
+
+      - name: Type check
+        run: npm run type-check

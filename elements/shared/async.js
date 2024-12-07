@@ -1,3 +1,24 @@
+import { expectToBeDefined } from './expect.js';
+
+/**
+ * @param {number} duration
+ * @param {{ signal?: AbortSignal }=} options
+ *
+ * @returns {Promise<void>}
+ */
+export async function delay(duration, { signal } = {}) {
+  await promisify(
+    (resolve) => {
+      const id = window.setTimeout(resolve, duration);
+
+      return () => {
+        window.clearTimeout(id);
+      };
+    },
+    { signal },
+  );
+}
+
 /**
  * @param {() => Promise<void>} task
  *
@@ -25,7 +46,7 @@ export async function loop(task) {
  */
 export async function parallel(total, task) {
   /** @type {Array<Promise<void>>} */
-  let promises = [];
+  const promises = [];
 
   for (let index = 0; index < total; index++) {
     promises.push(task());
@@ -43,7 +64,7 @@ export async function parallel(total, task) {
 }
 
 /**
- * @template T
+ * @template [T=unknown]
  *
  * @param {(resolve: (value: T) => void) => () => void} executor
  * @param {{ signal?: AbortSignal }=} options
@@ -52,7 +73,7 @@ export async function parallel(total, task) {
  */
 export async function promisify(executor, { signal } = {}) {
   /** @type {T} */
-  let value = await new Promise((resolve, reject) => {
+  const value = await new Promise((resolve, reject) => {
     if (signal === undefined) {
       executor(resolve);
       return;
@@ -67,7 +88,7 @@ export async function promisify(executor, { signal } = {}) {
      * @returns {void}
      */
     function abort() {
-      reject(signal.reason);
+      reject(expectToBeDefined(signal).reason);
     }
 
     /**
@@ -80,32 +101,13 @@ export async function promisify(executor, { signal } = {}) {
 
     signal.addEventListener('abort', handleAbort, { once: true });
 
-    let cleanup = executor((value) => {
+    const cleanup = executor((value) => {
       signal.removeEventListener('abort', handleAbort);
       resolve(value);
     });
   });
 
   return value;
-}
-
-/**
- * @param {number} duration
- * @param {{ signal?: AbortSignal }=} options
- *
- * @returns {Promise<void>}
- */
-export async function delay(duration, { signal } = {}) {
-  await promisify(
-    (resolve) => {
-      let id = window.setTimeout(resolve, duration);
-
-      return () => {
-        window.clearTimeout(id);
-      };
-    },
-    { signal },
-  );
 }
 
 /**
@@ -117,19 +119,19 @@ export async function delay(duration, { signal } = {}) {
  *
  * @returns {Promise<T>}
  */
-export async function when(target, type, { signal, filter } = {}) {
+export async function when(target, type, { filter, signal } = {}) {
   /** @type {T} */
-  let event = await promisify(
+  const event = await promisify(
     (resolve) => {
       /**
-       * @param {T} event
+       * @param {Event} event
        *
        * @returns {void}
        */
       function handleType(event) {
-        if (filter === undefined || filter(event)) {
+        if (filter === undefined || filter(/** @type {T} */ (event))) {
           target.removeEventListener(type, handleType);
-          resolve(event);
+          resolve(/** @type {T} */ (event));
         }
       }
 

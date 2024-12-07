@@ -1,5 +1,5 @@
-import { delay, loop, parallel, when } from './effects-player-element-async.js';
-import { getInteger, getSample } from './effects-player-element-random.js';
+import { delay, loop, parallel, when } from './shared/async.js';
+import { getInteger, getSample } from './shared/random.js';
 
 const TAU = 2 * Math.PI;
 const PARTICLES = ['\u{2728}', '\u{2b50}', '\u{1f31f}'];
@@ -34,11 +34,11 @@ export function isSupported() {
 export async function run(root, signal) {
   await parallel(10, async () => {
     await loop(async () => {
-      let firework = document.createElement('span');
+      const firework = document.createElement('span');
 
       try {
-        let circlesQuantity = getInteger(MIN_CIRCLES_QUANTITY, MAX_CIRCLES_QUANTITY);
-        let hueRotateAngle = getInteger(MIN_HUE_ROTATE_ANGLE, MAX_HUE_ROTATE_ANGLE);
+        const circlesQuantity = getInteger(MIN_CIRCLES_QUANTITY, MAX_CIRCLES_QUANTITY);
+        const hueRotateAngle = getInteger(MIN_HUE_ROTATE_ANGLE, MAX_HUE_ROTATE_ANGLE);
 
         firework.style.fontSize = '0.5rem';
         firework.style.bottom = '0';
@@ -53,11 +53,11 @@ export async function run(root, signal) {
         firework.style.visibility = 'hidden';
 
         for (let i = 0; i < circlesQuantity; i++) {
-          let circle = document.createElement('span');
-          let particlesQuantity = i * circlesQuantity + 1;
+          const circle = document.createElement('span');
+          const particlesQuantity = i * circlesQuantity + 1;
 
           for (let j = 0; j < particlesQuantity; j++) {
-            let particle = document.createElement('span');
+            const particle = document.createElement('span');
 
             particle.textContent = getSample(PARTICLES);
             particle.style.position = 'absolute';
@@ -76,14 +76,13 @@ export async function run(root, signal) {
 
         await delay(100, { signal });
 
-        /** @type {HTMLElement[]}  */
-        let circles = [...firework.children];
-        let circlesDensity = getInteger(MIN_CIRCLES_DENSITY, MAX_CIRCLES_DENSITY);
-        let transitionDuration = getInteger(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
-        let startDelay = getInteger(MIN_START_DELAY, MAX_START_DELAY);
-        let startX = getInteger(VIEWPORT_PADDING, window.innerWidth - VIEWPORT_PADDING);
-        let startY = firework.offsetHeight;
-        let endY = getInteger(-VIEWPORT_PADDING, -window.innerHeight + VIEWPORT_PADDING);
+        const circles = /** @type {HTMLElement[]} */ ([...firework.children]);
+        const circlesDensity = getInteger(MIN_CIRCLES_DENSITY, MAX_CIRCLES_DENSITY);
+        const transitionDuration = getInteger(MIN_TRANSITION_DURATION, MAX_TRANSITION_DURATION);
+        const startDelay = getInteger(MIN_START_DELAY, MAX_START_DELAY);
+        const startX = getInteger(VIEWPORT_PADDING, window.innerWidth - VIEWPORT_PADDING);
+        const startY = firework.offsetHeight;
+        const endY = getInteger(-VIEWPORT_PADDING, -window.innerHeight + VIEWPORT_PADDING);
 
         firework.style.transitionDuration = `${startDelay}ms`;
         firework.style.setProperty('--firework-x', `${startX}px`);
@@ -99,18 +98,17 @@ export async function run(root, signal) {
 
         await Promise.all(
           circles.map(async (circle, i) => {
-            /** @type {HTMLElement[]}  */
-            let particles = [...circle.children];
-            let particlesQuantity = particles.length;
-            let circleRadius = i * circlesQuantity * circlesDensity;
+            const particles = /** @type {HTMLElement[]}  */ ([...circle.children]);
+            const particlesQuantity = particles.length;
+            const circleRadius = i * circlesQuantity * circlesDensity;
 
             await Promise.all(
               particles.map(async (particle, j) => {
-                let particleAngle = (TAU * j) / particlesQuantity;
-                let particleBiasX = getInteger(MIN_PARTICLE_BIAS, MAX_PARTICLE_BIAS);
-                let particleBiasY = getInteger(MIN_PARTICLE_BIAS, MAX_PARTICLE_BIAS);
-                let particleEndX = circleRadius * Math.cos(particleAngle) + particleBiasX;
-                let particleEndY = circleRadius * Math.sin(particleAngle) + particleBiasY;
+                const particleAngle = (TAU * j) / particlesQuantity;
+                const particleBiasX = getInteger(MIN_PARTICLE_BIAS, MAX_PARTICLE_BIAS);
+                const particleBiasY = getInteger(MIN_PARTICLE_BIAS, MAX_PARTICLE_BIAS);
+                const particleEndX = circleRadius * Math.cos(particleAngle) + particleBiasX;
+                const particleEndY = circleRadius * Math.sin(particleAngle) + particleBiasY;
 
                 particle.style.setProperty('--particle-x', `${particleEndX}px`);
                 particle.style.setProperty('--particle-y', `${particleEndY}px`);
