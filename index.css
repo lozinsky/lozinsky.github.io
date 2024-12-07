@@ -187,28 +187,50 @@ a {
   color: var(--background-color);
 }
 
-.js collapse-handle[disabled].follow,
-.js effects-player:not([stopped]).follow,
-.no-js collapse-handle.follow {
-  background-image: unset;
-  cursor: unset;
+@media (scripting: enabled) {
+  collapse-handle[disabled].follow,
+  effects-player:not([stopped]).follow {
+    background-image: unset;
+    cursor: unset;
+  }
 }
 
-.js collapse-entry[opened]:not([once]) > *:not(collapse-content),
-.no-js collapse-entry:not([once]) > *:not(collapse-content) {
-  display: none;
+@media (scripting: none) {
+  collapse-handle.follow {
+    background-image: unset;
+    cursor: unset;
+  }
 }
 
-.no-js collapse-content,
-.no-js span[hidden] {
-  display: inline;
+@media (scripting: enabled) {
+  collapse-entry[opened]:not([once]) > *:not(collapse-content) {
+    display: none;
+  }
 }
 
-.no-js p[hidden] {
-  display: block;
+@media (scripting: none) {
+  collapse-entry:not([once]) > *:not(collapse-content) {
+    display: none;
+  }
+
+  collapse-content,
+  span[hidden] {
+    display: inline;
+  }
+
+  p[hidden] {
+    display: block;
+  }
 }
 
-.js .no-js-only,
-.no-js .js-only {
-  display: none;
+@media (scripting: enabled) {
+  .no-js-only {
+    display: none;
+  }
+}
+
+@media (scripting: none) {
+  .js-only {
+    display: none;
+  }
 }
