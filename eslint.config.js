@@ -1,5 +1,5 @@
 import js from '@eslint/js';
-import stylisticJs from '@stylistic/eslint-plugin-js';
+import stylistic from '@stylistic/eslint-plugin';
 import perfectionist from 'eslint-plugin-perfectionist';
 import prettier from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
@@ -30,10 +30,10 @@ export default ts.config({
     reportUnusedDisableDirectives: 'error',
   },
   plugins: {
-    '@stylistic/js': /** @type {import('eslint').ESLint.Plugin} */ (stylisticJs),
+    '@stylistic': stylistic,
   },
   rules: {
-    '@stylistic/js/lines-between-class-members': [
+    '@stylistic/lines-between-class-members': [
       'error',
       {
         enforce: [

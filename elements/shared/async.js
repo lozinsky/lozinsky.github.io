@@ -2,7 +2,7 @@ import { expectToBeDefined } from './expect.js';
 
 /**
  * @param {number} duration
- * @param {{ signal?: AbortSignal }=} options
+ * @param {{ signal?: AbortSignal | undefined }=} options
  *
  * @returns {Promise<void>}
  */
@@ -67,7 +67,7 @@ export async function parallel(total, task) {
  * @template [T=unknown]
  *
  * @param {(resolve: (value: T) => void) => () => void} executor
- * @param {{ signal?: AbortSignal }=} options
+ * @param {{ signal?: AbortSignal | undefined }=} options
  *
  * @returns {Promise<T>}
  */
@@ -115,7 +115,7 @@ export async function promisify(executor, { signal } = {}) {
  *
  * @param {EventTarget} target
  * @param {string} type
- * @param {{ signal?: AbortSignal; filter?: (event: T) => boolean }=} options
+ * @param {{ signal?: AbortSignal | undefined; filter?: (event: T) => boolean }=} options
  *
  * @returns {Promise<T>}
  */

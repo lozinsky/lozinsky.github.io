@@ -1,3 +1,5 @@
+import { expectToBeDefined } from './expect.js';
+
 /**
  * @param {number} min
  * @param {number} max
@@ -20,5 +22,5 @@ export function getSample(target) {
     throw new RangeError('Target must not be empty');
   }
 
-  return target[Math.floor(Math.random() * target.length)];
+  return expectToBeDefined(target[Math.floor(Math.random() * target.length)]);
 }

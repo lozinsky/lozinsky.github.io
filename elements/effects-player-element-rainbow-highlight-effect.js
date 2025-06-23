@@ -93,8 +93,8 @@ function getHighlightByRange(ranges, highlights) {
   const highlightByRange = new Map();
 
   for (let index = 0; index < ranges.length; index++) {
-    const range = ranges[index];
-    const highlight = highlights[index % highlights.length];
+    const range = expectToBeDefined(ranges[index]);
+    const highlight = expectToBeDefined(highlights[index % highlights.length]);
 
     highlightByRange.set(range, highlight);
   }
@@ -112,8 +112,8 @@ function getNextHighlightByPrevHighlight(highlights) {
   const nextHighlightByPrevHighlight = new Map();
 
   for (let index = 0; index < highlights.length; index++) {
-    const prevHighlight = highlights[index];
-    const nextHighlight = highlights[(index + 1) % highlights.length];
+    const prevHighlight = expectToBeDefined(highlights[index]);
+    const nextHighlight = expectToBeDefined(highlights[(index + 1) % highlights.length]);
 
     nextHighlightByPrevHighlight.set(prevHighlight, nextHighlight);
   }
