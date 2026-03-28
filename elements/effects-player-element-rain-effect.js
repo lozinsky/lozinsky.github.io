@@ -1,7 +1,7 @@
 import { delay, loop, parallel, when } from './shared/async.js';
 import { getInteger, getSample } from './shared/random.js';
 
-const DROPLET = '\u{1f4a7}';
+const DROPLET = '\u{1F4A7}';
 const SLOPES = [-200, 200];
 const MIN_TRANSITION_DURATION = 500;
 const MAX_TRANSITION_DURATION = 1000;
@@ -40,7 +40,7 @@ export async function run(root, signal) {
         droplet.style.transitionTimingFunction = 'linear';
         droplet.style.visibility = 'hidden';
 
-        root.appendChild(droplet);
+        root.append(droplet);
 
         await delay(100, { signal });
 

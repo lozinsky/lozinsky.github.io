@@ -1,7 +1,6 @@
-import './collapse-handle-element.js';
-
 import { afterEach, expect, it, vi } from 'vitest';
 
+import './collapse-handle-element.js';
 import { expectToBeDefined } from './shared/expect.js';
 
 const root = document.body;
@@ -53,7 +52,7 @@ it('triggers "collapse-handle-toggle" event on click when is enabled', () => {
   collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
   collapseHandle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
-  expect(handleCollapseHandleToggle).toBeCalledTimes(1);
+  expect(handleCollapseHandleToggle).toHaveBeenCalledTimes(1);
 });
 
 it('does not trigger "collapse-handle-toggle" event on click when is disabled', () => {
@@ -63,7 +62,7 @@ it('does not trigger "collapse-handle-toggle" event on click when is disabled', 
   collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
   collapseHandle.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
-  expect(handleCollapseHandleToggle).not.toBeCalled();
+  expect(handleCollapseHandleToggle).not.toHaveBeenCalled();
 });
 
 it.each(keys)('triggers "collapse-handle-toggle" event on "%s" keydown when is enabled', (key) => {
@@ -73,7 +72,7 @@ it.each(keys)('triggers "collapse-handle-toggle" event on "%s" keydown when is e
   collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
   collapseHandle.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key }));
 
-  expect(handleCollapseHandleToggle).toBeCalledTimes(1);
+  expect(handleCollapseHandleToggle).toHaveBeenCalledTimes(1);
 });
 
 it.each(keys)('does not trigger "collapse-handle-toggle" event on "%s" keydown when is disabled', (key) => {
@@ -83,7 +82,7 @@ it.each(keys)('does not trigger "collapse-handle-toggle" event on "%s" keydown w
   collapseHandle.addEventListener('collapse-handle-toggle', handleCollapseHandleToggle);
   collapseHandle.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key }));
 
-  expect(handleCollapseHandleToggle).not.toBeCalled();
+  expect(handleCollapseHandleToggle).not.toHaveBeenCalled();
 });
 
 it('blurs when is focused and is disabled', () => {
@@ -93,7 +92,7 @@ it('blurs when is focused and is disabled', () => {
   collapseHandle.focus();
   collapseHandle.disabled = true;
 
-  expect(blur).toBeCalledTimes(1);
+  expect(blur).toHaveBeenCalledTimes(1);
 });
 
 it('does not blur when is blurred and is disabled', () => {
@@ -102,5 +101,5 @@ it('does not blur when is blurred and is disabled', () => {
 
   collapseHandle.disabled = true;
 
-  expect(blur).not.toBeCalled();
+  expect(blur).not.toHaveBeenCalled();
 });

@@ -1,0 +1,41 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "options": {
+    "reportUnusedDisableDirectives": "error",
+    "typeAware": true
+  },
+  "env": {
+    "builtin": true,
+    "browser": true
+  },
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "pedantic": "error",
+    "nursery": "error",
+    "style": "error",
+    "perf": "error"
+  },
+  "rules": {
+    "func-style": ["error", "declaration"],
+    "prefer-readonly-parameter-types": "off",
+    "no-unsafe-type-assertion": "off",
+    "max-lines-per-function": "off",
+    "no-useless-undefined": "off",
+    "no-misused-promises": "off",
+    "prefer-class-fields": "off",
+    "no-inline-comments": "off",
+    "strict-void-return": "off",
+    "no-magic-numbers": "off",
+    "arrow-body-style": "off",
+    "prefer-readonly": "off",
+    "unbound-method": "off",
+    "max-statements": "off",
+    "sort-imports": "off",
+    "no-ternary": "off",
+    "id-length": "off",
+    "max-lines": "off",
+    "no-shadow": "off",
+    "no-null": "off"
+  }
+}

@@ -1,3 +1,5 @@
+// oxlint-disable require-await
+
 import { describe, expect, it, vi } from 'vitest';
 
 import { delay, loop, parallel, promisify, when } from './async.js';
@@ -16,7 +18,7 @@ describe('loop', () => {
       throw new Error('Error');
     });
 
-    await expect(promise).rejects.toThrowError('Error');
+    await expect(promise).rejects.toThrow('Error');
   });
 
   it('runs task twice', async () => {
@@ -29,7 +31,7 @@ describe('loop', () => {
 
     await promise;
 
-    expect(task).toBeCalledTimes(2);
+    expect(task).toHaveBeenCalledTimes(2);
   });
 });
 
@@ -47,7 +49,7 @@ describe('parallel', () => {
       throw new Error('Error');
     });
 
-    await expect(promise).rejects.toThrowError('Error');
+    await expect(promise).rejects.toThrow('Error');
   });
 
   it('runs task twice', async () => {
@@ -56,7 +58,7 @@ describe('parallel', () => {
 
     await promise;
 
-    expect(task).toBeCalledTimes(2);
+    expect(task).toHaveBeenCalledTimes(2);
   });
 });
 
@@ -124,7 +126,7 @@ describe('promisify', () => {
     abortController.abort();
     await promise;
 
-    expect(cleanup).not.toBeCalled();
+    expect(cleanup).not.toHaveBeenCalled();
   });
 
   it('rejects when signal is aborted', async () => {
@@ -138,7 +140,7 @@ describe('promisify', () => {
 
     abortController.abort();
 
-    await expect(promise).rejects.toThrowError('signal is aborted without reason');
+    await expect(promise).rejects.toThrow('signal is aborted without reason');
   });
 
   it('cleanups when signal is aborted', async () => {
@@ -154,7 +156,7 @@ describe('promisify', () => {
     abortController.abort();
     await promise.catch(() => {});
 
-    expect(cleanup).toBeCalledTimes(1);
+    expect(cleanup).toHaveBeenCalledTimes(1);
   });
 
   it('rejects when signal is already aborted', async () => {
@@ -165,7 +167,7 @@ describe('promisify', () => {
       { signal: AbortSignal.abort() },
     );
 
-    await expect(promise).rejects.toThrowError('signal is aborted without reason');
+    await expect(promise).rejects.toThrow('signal is aborted without reason');
   });
 
   it('does not cleanup when signal is already aborted', async () => {
@@ -179,7 +181,7 @@ describe('promisify', () => {
 
     await promise.catch(() => {});
 
-    expect(cleanup).not.toBeCalled();
+    expect(cleanup).not.toHaveBeenCalled();
   });
 
   it('does not execute when signal is already aborted', async () => {
@@ -190,7 +192,7 @@ describe('promisify', () => {
 
     await promise.catch(() => {});
 
-    expect(executor).not.toBeCalled();
+    expect(executor).not.toHaveBeenCalled();
   });
 });
 
@@ -213,19 +215,19 @@ describe('delay', () => {
 
     abortController.abort();
 
-    await expect(promise).rejects.toThrowError('signal is aborted without reason');
+    await expect(promise).rejects.toThrow('signal is aborted without reason');
   });
 
   it('clears timeout when signal is aborted', async () => {
-    const setTimeout = vi.spyOn(window, 'setTimeout');
-    const clearTimeout = vi.spyOn(window, 'clearTimeout');
+    const setTimeout = vi.spyOn(globalThis, 'setTimeout');
+    const clearTimeout = vi.spyOn(globalThis, 'clearTimeout');
     const abortController = new AbortController();
     const promise = delay(10, { signal: abortController.signal });
 
     abortController.abort();
     await promise.catch(() => {});
 
-    expect(clearTimeout).toBeCalledTimes(1);
+    expect(clearTimeout).toHaveBeenCalledTimes(1);
     expect(clearTimeout.mock.calls).toEqual([
       setTimeout.mock.results.map((result) => /** @type {unknown} */ (result.value)),
     ]);
@@ -234,25 +236,25 @@ describe('delay', () => {
   it('rejects when signal is already aborted', async () => {
     const promise = delay(10, { signal: AbortSignal.abort() });
 
-    await expect(promise).rejects.toThrowError('signal is aborted without reason');
+    await expect(promise).rejects.toThrow('signal is aborted without reason');
   });
 
   it('does not clear timeout when signal is already aborted', async () => {
-    const clearTimeout = vi.spyOn(window, 'clearTimeout');
+    const clearTimeout = vi.spyOn(globalThis, 'clearTimeout');
     const promise = delay(10, { signal: AbortSignal.abort() });
 
     await promise.catch(() => {});
 
-    expect(clearTimeout).not.toBeCalled();
+    expect(clearTimeout).not.toHaveBeenCalled();
   });
 
   it('does not set timeout when signal is already aborted', async () => {
-    const setTimeout = vi.spyOn(window, 'setTimeout');
+    const setTimeout = vi.spyOn(globalThis, 'setTimeout');
     const promise = delay(10, { signal: AbortSignal.abort() });
 
     await promise.catch(() => {});
 
-    expect(setTimeout).not.toBeCalled();
+    expect(setTimeout).not.toHaveBeenCalled();
   });
 });
 
@@ -277,7 +279,7 @@ describe('when', () => {
 
     eventTarget.dispatchEvent(event);
 
-    expect(filter).toBeCalledWith(event);
+    expect(filter).toHaveBeenCalledWith(event);
     await expect(Promise.race([promise, timeout])).resolves.toBe(event);
 
     abortController.abort();
@@ -293,7 +295,7 @@ describe('when', () => {
 
     eventTarget.dispatchEvent(event);
 
-    expect(filter).toBeCalledWith(event);
+    expect(filter).toHaveBeenCalledWith(event);
     await expect(Promise.race([promise, timeout])).resolves.toBeUndefined();
 
     abortController.abort();
@@ -319,7 +321,7 @@ describe('when', () => {
     eventTarget.dispatchEvent(event);
     await promise;
 
-    expect(removeEventListener).toBeCalledTimes(1);
+    expect(removeEventListener).toHaveBeenCalledTimes(1);
     expect(removeEventListener.mock.calls).toEqual(addEventListener.mock.calls);
   });
 
@@ -332,7 +334,7 @@ describe('when', () => {
     abortController.abort();
     eventTarget.dispatchEvent(event);
 
-    await expect(promise).rejects.toThrowError('signal is aborted without reason');
+    await expect(promise).rejects.toThrow('signal is aborted without reason');
   });
 
   it('removes event listener when signal is aborted', async () => {
@@ -347,7 +349,7 @@ describe('when', () => {
     eventTarget.dispatchEvent(event);
     await promise.catch(() => {});
 
-    expect(removeEventListener).toBeCalledTimes(1);
+    expect(removeEventListener).toHaveBeenCalledTimes(1);
     expect(removeEventListener.mock.calls).toEqual(addEventListener.mock.calls);
   });
 
@@ -358,7 +360,7 @@ describe('when', () => {
 
     eventTarget.dispatchEvent(event);
 
-    await expect(promise).rejects.toThrowError('signal is aborted without reason');
+    await expect(promise).rejects.toThrow('signal is aborted without reason');
   });
 
   it('does not remove event listener when signal is already aborted', async () => {
@@ -370,7 +372,7 @@ describe('when', () => {
     eventTarget.dispatchEvent(event);
     await promise.catch(() => {});
 
-    expect(removeEventListener).not.toBeCalled();
+    expect(removeEventListener).not.toHaveBeenCalled();
   });
 
   it('does not add event listener when signal is already aborted', async () => {
@@ -382,6 +384,6 @@ describe('when', () => {
     eventTarget.dispatchEvent(event);
     await promise.catch(() => {});
 
-    expect(addEventListener).not.toBeCalled();
+    expect(addEventListener).not.toHaveBeenCalled();
   });
 });

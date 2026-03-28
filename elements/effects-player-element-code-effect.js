@@ -5,8 +5,8 @@ const MIN_FONT_SIZE = 1;
 const MAX_FONT_SIZE = 3;
 const MIN_OPACITY = 10;
 const MAX_OPACITY = 30;
-const MIN_TRANSITION_DURATION = 20000;
-const MAX_TRANSITION_DURATION = 50000;
+const MIN_TRANSITION_DURATION = 20_000;
+const MAX_TRANSITION_DURATION = 50_000;
 const MIN_TRANSLATE_X = -10;
 const MAX_TRANSLATE_X = 10;
 
@@ -47,7 +47,7 @@ export async function run(root, signal) {
         code.style.transition = `transform ${transitionDuration}ms linear`;
         code.style.setProperty('--code-y', '-100%');
 
-        root.appendChild(code);
+        root.append(code);
 
         await delay(100, { signal });
 

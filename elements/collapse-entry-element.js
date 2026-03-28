@@ -59,13 +59,15 @@ export class CollapseEntryElement extends HTMLElement {
     }
 
     switch (name) {
-      case 'once':
+      case 'once': {
         void this.#handleOnceChange(newValue !== null);
         break;
+      }
 
-      case 'opened':
+      case 'opened': {
         void this.#handleOpenedChange(newValue !== null);
         break;
+      }
     }
   }
 

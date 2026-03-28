@@ -1,3 +1,7 @@
+// oxlint-disable typescript/no-unnecessary-condition
+// oxlint-disable typescript/prefer-promise-reject-errors
+// oxlint-disable no-await-in-loop
+
 import { expectToBeDefined } from './expect.js';
 
 /**
@@ -9,10 +13,10 @@ import { expectToBeDefined } from './expect.js';
 export async function delay(duration, { signal } = {}) {
   await promisify(
     (resolve) => {
-      const id = window.setTimeout(resolve, duration);
+      const id = globalThis.setTimeout(resolve, duration);
 
       return () => {
-        window.clearTimeout(id);
+        globalThis.clearTimeout(id);
       };
     },
     { signal },

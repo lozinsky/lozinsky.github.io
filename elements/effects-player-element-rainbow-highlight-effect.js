@@ -13,7 +13,7 @@ const MAX_FIRST_HIGHLIGHT_DELAY = 1000;
  * @returns {boolean}
  */
 export function isSupported() {
-  if (getCountryForTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)?.id === 'RU') {
+  if (getCountryForTimezone(new Intl.DateTimeFormat().resolvedOptions().timeZone)?.id === 'RU') {
     return false;
   }
 
@@ -133,9 +133,9 @@ function getRanges(root) {
   let treeWalkerNode = treeWalker.nextNode();
 
   while (treeWalkerNode !== null) {
-    const parentElement = treeWalkerNode.parentElement;
+    const { parentElement } = treeWalkerNode;
 
-    if (parentElement?.offsetParent != null) {
+    if (parentElement?.offsetParent) {
       const textContent = treeWalkerNode.textContent ?? '';
 
       for (let index = 0; index < textContent.length; index++) {

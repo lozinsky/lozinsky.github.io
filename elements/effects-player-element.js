@@ -147,7 +147,7 @@ export class EffectsPlayerElement extends HTMLElement {
           filter: () => document.visibilityState === 'hidden',
           signal: playing.signal,
         }),
-        when(window, 'resize', {
+        when(globalThis, 'resize', {
           signal: playing.signal,
         }),
       ]);

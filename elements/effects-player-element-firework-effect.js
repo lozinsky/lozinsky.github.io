@@ -2,7 +2,7 @@ import { delay, loop, parallel, when } from './shared/async.js';
 import { getInteger, getSample } from './shared/random.js';
 
 const TAU = 2 * Math.PI;
-const PARTICLES = ['\u{2728}', '\u{2b50}', '\u{1f31f}'];
+const PARTICLES = ['\u{2728}', '\u{2B50}', '\u{1F31F}'];
 const VIEWPORT_PADDING = 100;
 const MIN_CIRCLES_QUANTITY = 5;
 const MAX_CIRCLES_QUANTITY = 9;
@@ -66,13 +66,13 @@ export async function run(root, signal) {
             particle.style.transitionDuration = `${PARTICLE_TRANSITION_DURATION}ms`;
             particle.style.transitionTimingFunction = 'ease-out';
 
-            circle.appendChild(particle);
+            circle.append(particle);
           }
 
-          firework.appendChild(circle);
+          firework.append(circle);
         }
 
-        root.appendChild(firework);
+        root.append(firework);
 
         await delay(100, { signal });
 

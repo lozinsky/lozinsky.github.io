@@ -3,6 +3,7 @@
 node_modules/
 npm-debug.log
 
+.vitest-attachments/
 __screenshots__/
 
 dist/

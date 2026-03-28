@@ -1,9 +1,8 @@
+import { afterEach, expect, it, vi } from 'vitest';
+
 import './collapse-content-element.js';
 import './collapse-entry-element.js';
 import './collapse-handle-element.js';
-
-import { afterEach, expect, it, vi } from 'vitest';
-
 import { expectToBeDefined } from './shared/expect.js';
 
 const root = document.body;
@@ -166,5 +165,5 @@ it('stops "collapse-handle-toggle" event propagation', async () => {
 
   collapseEntry.dispatchEvent(collapseHandleToggleEvent);
 
-  expect(stopPropagation).toBeCalledTimes(1);
+  expect(stopPropagation).toHaveBeenCalledTimes(1);
 });

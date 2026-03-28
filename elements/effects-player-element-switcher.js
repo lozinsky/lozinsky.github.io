@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// oxlint-disable typescript/no-unsafe-assignment
 
 export class EffectsPlayerElementSwitcher {
   /**

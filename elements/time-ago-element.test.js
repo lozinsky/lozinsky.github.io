@@ -1,7 +1,6 @@
-import './time-ago-element.js';
-
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 
+import './time-ago-element.js';
 import { expectToBeDefined } from './shared/expect.js';
 
 const root = document.body;

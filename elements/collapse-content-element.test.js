@@ -1,7 +1,6 @@
-import './collapse-content-element.js';
-
 import { afterEach, expect, it } from 'vitest';
 
+import './collapse-content-element.js';
 import { expectToBeDefined } from './shared/expect.js';
 
 const root = document.body;

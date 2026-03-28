@@ -13,6 +13,24 @@ export class CollapseContentElement extends HTMLElement {
   }
 
   /**
+   * @override
+   *
+   * @type {boolean}
+   */
+  get hidden() {
+    return this.hasAttribute('hidden');
+  }
+
+  /**
+   * @override
+   *
+   * @param {boolean} value
+   */
+  set hidden(value) {
+    this.toggleAttribute('hidden', value);
+  }
+
+  /**
    * @type {string | null}
    */
   get forwards() {
@@ -43,13 +61,15 @@ export class CollapseContentElement extends HTMLElement {
     }
 
     switch (name) {
-      case 'forwards':
+      case 'forwards': {
         this.#handleForwardsChange(newValue);
         break;
+      }
 
-      case 'hidden':
+      case 'hidden': {
         this.#handleHiddenChange(newValue !== null);
         break;
+      }
     }
   }
 
@@ -73,7 +93,7 @@ export class CollapseContentElement extends HTMLElement {
    * @returns {void}
    */
   #forwardHidden(id, hidden) {
-    const receiver = expectToBeDefined(document.getElementById(id));
+    const receiver = /** @type {HTMLElement} */ (expectToBeDefined(document.querySelector(`#${id}`)));
 
     receiver.hidden = hidden;
   }
@@ -98,7 +118,7 @@ export class CollapseContentElement extends HTMLElement {
    * @returns {void}
    */
   #handleHiddenChange(hidden) {
-    const forwards = this.forwards;
+    const { forwards } = this;
 
     if (forwards !== null) {
       this.#forwardHidden(forwards, hidden);

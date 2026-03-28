@@ -18,24 +18,24 @@ describe('expectToBeDefined', () => {
   it('does not return value and throws if value is "null"', () => {
     expect(() => {
       expectToBeDefined(null);
-    }).toThrowError('Expected value to be defined');
+    }).toThrow('Expected value to be defined');
   });
 
   it('does not return value and throws if value is "null" with message', () => {
     expect(() => {
       expectToBeDefined(null, 'Message');
-    }).toThrowError('Message');
+    }).toThrow('Message');
   });
 
   it('does not return value and throws if value is "undefined"', () => {
     expect(() => {
       expectToBeDefined(undefined);
-    }).toThrowError('Expected value to be defined');
+    }).toThrow('Expected value to be defined');
   });
 
   it('does not return value and throws if value is "undefined" with message', () => {
     expect(() => {
       expectToBeDefined(undefined, 'Message');
-    }).toThrowError('Message');
+    }).toThrow('Message');
   });
 });
