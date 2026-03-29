@@ -7,8 +7,8 @@ const MIN_OPACITY = 10;
 const MAX_OPACITY = 30;
 const MIN_TRANSITION_DURATION = 20_000;
 const MAX_TRANSITION_DURATION = 50_000;
-const MIN_TRANSLATE_X = -10;
-const MAX_TRANSLATE_X = 10;
+const MIN_TRANSLATE_X = -5;
+const MAX_TRANSLATE_X = 5;
 
 /**
  * @returns {boolean}
@@ -43,7 +43,7 @@ export async function run(root, signal) {
         code.style.pointerEvents = 'none';
         code.style.position = 'fixed';
         code.style.top = '0';
-        code.style.transform = `translate(${translateX}%, var(--code-y))`;
+        code.style.transform = `translate(${translateX}rem, var(--code-y))`;
         code.style.transition = `transform ${transitionDuration}ms linear`;
         code.style.setProperty('--code-y', '-100%');
 
